@@ -1,0 +1,21 @@
+{
+  "name": "middag",
+  "items": [
+    {
+      "item": "bacon",
+      "isCompleted": false
+    },
+    {
+      "item": "egg",
+      "isCompleted": false
+    },
+    {
+      "item": "parmesan",
+      "isCompleted": false
+    },
+    {
+      "item": "spagetti",
+      "isCompleted": false
+    }
+  ]
+}

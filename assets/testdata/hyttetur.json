@@ -1,0 +1,17 @@
+{
+  "name": "hyttetur",
+  "items": [
+    {
+      "item": "ved",
+      "isCompleted": true
+    },
+    {
+      "item": "grillspyd",
+      "isCompleted": false
+    },
+    {
+      "item": "pølser",
+      "isCompleted": true
+    }
+  ]
+}
