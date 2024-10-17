@@ -1,33 +1,54 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:developer';
 
-import 'package:idatt2506_project/navigation/routes.dart';
 
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/view/navigation/routes.dart';
 
+import 'services/list_service.dart';
 
 Future<void> main() async {
-
   runApp(const TodoApp());
 }
 
-class TodoApp extends StatelessWidget {
+class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<TodoApp> createState() => _State();
+}
 
+class _State extends State<TodoApp> {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
         useMaterial3: true,
+        textTheme: const TextTheme(
+            headlineLarge:
+            TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            bodyLarge: TextStyle(fontSize: 20)
+        ),
       ),
       home: getMainPage(),
-      routes: getRoutesForRouter(),
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    initializeTestData();
+  }
+
+  Future<void> initializeTestData() async {
+    try{
+      await ListService.removeAllLists();
+      await ListService.addTestDataToApplicationDocuments(context);
+    } catch(e){
+      log("Could not add testdata $e");
+    }
+  }
 }
 

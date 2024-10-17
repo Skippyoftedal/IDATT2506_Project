@@ -1,15 +1,19 @@
 class TodoItem {
   String item;
-  TodoItem(this.item);
+  bool isCompleted;
 
-  factory TodoItem.fromJson(Map<String, dynamic> json){
-    return TodoItem(
-      json["item"]
-    );
+  TodoItem(this.item, this.isCompleted);
+
+  factory TodoItem.fromJson(Map<String, dynamic> json) {
+    return TodoItem(json["item"], json["isCompleted"]);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {"item": item, "isCompleted": isCompleted};
   }
 
   @override
   String toString() {
-    return item;
+    return "$item: $isCompleted";
   }
 }
