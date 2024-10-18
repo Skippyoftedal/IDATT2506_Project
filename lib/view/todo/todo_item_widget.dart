@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
+import 'package:confetti/confetti.dart';
 
 class TodoItemWidget extends StatefulWidget {
   final TodoItem todoItem;
@@ -18,31 +21,42 @@ class TodoItemWidget extends StatefulWidget {
 }
 
 class _TodoItemWidgetState extends State<TodoItemWidget> {
+  late bool isCompleted;
+  static const fadeTime = Duration(milliseconds: 500);
   @override
   void initState() {
+
+    isCompleted = widget.isCompleted;
     super.initState();
     controller.fadeIn();
   }
 
   final controller = FadeInController();
 
-  void onWidgetClicked() async{
+  void onWidgetClicked() async {
+    setState(() {
+      isCompleted = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 200));
     controller.fadeOut();
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(fadeTime);
     widget.onClick();
-
   }
-  
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FadeIn(
       controller: controller,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeIn,
+      duration: fadeTime,
+      curve: Curves.linear,
       child: GestureDetector(
-        onTap: () => {
-          onWidgetClicked()
-        },
+        onTap: () => {onWidgetClicked()},
         child: Container(
           padding: const EdgeInsets.all(10),
           margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -54,10 +68,10 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
               Transform.scale(
                 scale: 2,
                 child: Checkbox(
-                  value: widget.isCompleted,
+                  value: isCompleted,
                   fillColor: WidgetStateColor.resolveWith(
                     (_) {
-                      return widget.isCompleted
+                      return isCompleted
                           ? Theme.of(context).colorScheme.primary
                           : Theme.of(context).colorScheme.primary;
                     },
@@ -87,3 +101,5 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
     );
   }
 }
+
+

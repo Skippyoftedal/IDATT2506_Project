@@ -47,7 +47,7 @@ class TodoList {
   }
 
   void reorder(int oldIndex, int newIndex, isCompleted) {
-    print("old index: $oldIndex, newIndex: $newIndex");
+    log("old index: $oldIndex, newIndex: $newIndex");
     var list = isCompleted ? completed : inProgress;
 
     if (oldIndex < newIndex) {

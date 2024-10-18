@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
@@ -16,21 +17,50 @@ class ItemView extends StatefulWidget {
 }
 
 class _ItemViewState extends State<ItemView> {
+  late ConfettiController confettiController;
+  late bool listHasBeenFinished;
+
+  @override
+  void initState() {
+    super.initState();
+    listHasBeenFinished = widget.todoList.inProgress.isEmpty;
+    confettiController =
+        ConfettiController(duration: const Duration(seconds: 3));
+  }
+
   void updateList() {
+    if (!listHasBeenFinished && widget.todoList.inProgress.isEmpty) {
+      listHasBeenFinished = true;
+      confettiController.play();
+    }
     widget.onUpdateList();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          asScrollableList(widget.todoList.inProgress, false),
-          if (widget.todoList.completed.isNotEmpty) const Text("Finished"),
-          asScrollableList(widget.todoList.completed, true),
-        ],
+      child: explosiveConfettiWidget(
+        child: Column(
+          children: [
+            asScrollableList(widget.todoList.inProgress, false),
+            if (widget.todoList.completed.isNotEmpty) const Text("Finished"),
+            asScrollableList(widget.todoList.completed, true),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget explosiveConfettiWidget({child}) {
+    return ConfettiWidget(
+        numberOfParticles: 100,
+        maxBlastForce: 50,
+        minBlastForce: 1,
+        gravity: 0,
+        blastDirectionality: BlastDirectionality.explosive,
+        shouldLoop: false,
+        confettiController: confettiController,
+        child: child);
   }
 
   ReorderableListView asScrollableList(Iterable<TodoItem> items, isCompleted) {
@@ -44,13 +74,12 @@ class _ItemViewState extends State<ItemView> {
           updateList();
         });
       },
-      proxyDecorator: (child, index, animation) =>
-          Material(
-            borderRadius: BorderRadius.circular(10),
-            shadowColor: Colors.black,
-            elevation: 5,
-            child: child,
-          ),
+      proxyDecorator: (child, index, animation) => Material(
+        borderRadius: BorderRadius.circular(10),
+        shadowColor: Colors.black,
+        elevation: 5,
+        child: child,
+      ),
       children: [
         ...getFromCompletedStatus(items, isCompleted),
       ],
