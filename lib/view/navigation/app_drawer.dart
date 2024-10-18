@@ -77,7 +77,7 @@ class AppDrawerState extends State<AppDrawer> {
   }
 
   List<Widget> constantRoutes() {
-    return getTopNavigationRoutes()
+    return RouteManager.getTopNavigationRoutes()
         .map(
           (route) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +112,7 @@ class AppDrawerState extends State<AppDrawer> {
   newListRoute() {
     return Container(
         color: Colors.lightBlue,
-        child: RouteWidget(route: getCreateNewListRoute()));
+        child: RouteWidget(route: RouteManager.getCreateNewListRoute()));
   }
 
   showDeleteAlert(BuildContext context, String listToDelete) {

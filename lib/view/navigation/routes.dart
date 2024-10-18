@@ -4,35 +4,37 @@ import 'package:idatt2506_project/pages/test_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/view/navigation/todo_route.dart';
 
+class RouteManager{
+  static final _home = TodoRoute("Home", (_) => getMainPage(), Icons.home);
 
-final _home = TodoRoute("Home", (_) => getMainPage(), Icons.home);
+  static final _test1 = TodoRoute("Settings",
+          (_) => const TestPage(pageTitle: "test page 1"), Icons.settings);
 
-final _test1 = TodoRoute("Settings",
-    (_) => const TestPage(pageTitle: "test page 1"), Icons.settings);
+  static final _test2 = TodoRoute(
+      "test 2", (_) => const TestPage(pageTitle: "test page 2"));
 
-final _test2 = TodoRoute(
-    "test 2", (_) => const TestPage(pageTitle: "test page 2"));
+  static final _createNew = TodoRoute(
+      "Create New List",
+          (_) =>
+      const CreateNewListPage(),
+      Icons.add);
 
-final _createNew = TodoRoute(
-    "Create New List",
-    (_) =>
-        const CreateNewListPage(),
-    Icons.add);
+  static List<TodoRoute> getTopNavigationRoutes() {
+    return [_home, _test1, _test2];
+  }
 
-List<TodoRoute> getTopNavigationRoutes() {
-  return [_home, _test1, _test2];
+  static List<TodoRoute> getAllPossibleRoutes() {
+    return [_home, _test1, _test2, _createNew];
+  }
+
+  static Widget getMainPage() {
+    //return const CreateNewListPage();
+    return const ListPage(listName: "hyttetur");
+  }
+
+  static TodoRoute getCreateNewListRoute() {
+    return _createNew;
+  }
 }
 
-List<TodoRoute> getAllPossibleRoutes() {
-  return [_home, _test1, _test2, _createNew];
-}
-
-Widget getMainPage() {
-  //return const CreateNewListPage();
-  return const ListPage(listName: "hyttetur");
-}
-
-TodoRoute getCreateNewListRoute() {
-  return _createNew;
-}
 
