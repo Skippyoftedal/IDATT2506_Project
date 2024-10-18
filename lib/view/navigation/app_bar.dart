@@ -6,7 +6,7 @@ class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('Home'),
+      title: const Text('Todo'),
       backgroundColor: Colors.blue,
     );
   }

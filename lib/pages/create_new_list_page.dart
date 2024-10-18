@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
+import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 
-import '../view/navigation/standard_scaffold.dart';
 
 class CreateNewListPage extends StatefulWidget {
   const CreateNewListPage({super.key});

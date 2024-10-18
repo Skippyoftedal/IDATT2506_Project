@@ -1,19 +1,26 @@
+import 'dart:developer';
+
 class TodoItem {
   String item;
-  bool isCompleted;
 
-  TodoItem(this.item, this.isCompleted);
+  TodoItem(this.item);
 
   factory TodoItem.fromJson(Map<String, dynamic> json) {
-    return TodoItem(json["item"], json["isCompleted"]);
+    try {
+      return TodoItem(json["item"]);
+    } catch (e) {
+
+      log("json parsing error for todoItem :$e");
+      throw StateError("Cannot parse $json");
+    }
   }
 
   Map<String, dynamic> toJson() {
-    return {"item": item, "isCompleted": isCompleted};
+    return {"item": item};
   }
 
   @override
   String toString() {
-    return "$item: $isCompleted";
+    return item;
   }
 }

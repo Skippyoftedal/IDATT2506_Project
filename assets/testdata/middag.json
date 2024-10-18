@@ -1,21 +1,25 @@
 {
   "name": "middag",
-  "items": [
+  "inProgress": [
     {
-      "item": "bacon",
-      "isCompleted": false
+      "item": "marshmallows"
     },
     {
-      "item": "egg",
-      "isCompleted": false
+      "item": "kjeks"
     },
     {
-      "item": "parmesan",
-      "isCompleted": false
+      "item": "ski-sko"
+    }
+  ],
+  "completed": [
+    {
+      "item": "ved"
     },
     {
-      "item": "spagetti",
-      "isCompleted": false
+      "item": "grillspyd"
+    },
+    {
+      "item": "pølser"
     }
   ]
 }

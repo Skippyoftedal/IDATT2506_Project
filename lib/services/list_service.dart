@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../model/todo_list.dart';
 
 class ListService {
   static Future<void> addTestDataToApplicationDocuments(context) async {
@@ -94,7 +94,7 @@ class ListService {
   }
 
   static Future<void> createEmptyList(String name, context) async {
-    saveList(context, TodoList(name, List.empty()));
+    saveList(context, TodoList(name, List.empty(), List.empty()));
   }
 
   static Future<void> deleteList(String listName) async {

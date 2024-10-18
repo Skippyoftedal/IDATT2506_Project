@@ -1,17 +1,43 @@
 {
   "name": "hyttetur",
-  "items": [
+  "inProgress": [
     {
-      "item": "ved",
-      "isCompleted": true
+      "item": "marshmallows"
     },
     {
-      "item": "grillspyd",
-      "isCompleted": false
+      "item": "kjeks"
     },
     {
-      "item": "pølser",
-      "isCompleted": true
+      "item": "ski-sko"
+    },
+    {
+      "item": "ull"
+    },
+    {
+      "item": "mais"
+    },
+    {
+      "item": "smøring"
+    },
+    {
+      "item": "sjokolade"
+    },
+    {
+      "item": "egg"
+    },
+    {
+      "item": "melk"
+    }
+  ],
+  "completed": [
+    {
+      "item": "ved"
+    },
+    {
+      "item": "grillspyd"
+    },
+    {
+      "item": "pølser"
     }
   ]
 }

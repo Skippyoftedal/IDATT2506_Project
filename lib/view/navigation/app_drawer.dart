@@ -7,14 +7,11 @@ import 'package:idatt2506_project/view/navigation/route_widget.dart';
 import 'package:idatt2506_project/view/navigation/routes.dart';
 import 'package:idatt2506_project/view/navigation/todo_route.dart';
 
-
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return AppDrawerState();
-  }
+  State<StatefulWidget> createState() => AppDrawerState();
 }
 
 class AppDrawerState extends State<AppDrawer> {
@@ -46,7 +43,7 @@ class AppDrawerState extends State<AppDrawer> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Drawer(
       child: Column(
         children: [

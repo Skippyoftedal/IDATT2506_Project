@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
-import 'package:idatt2506_project/view/todo/todo_item_widget.dart';
+import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
+import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
 
-import '../view/navigation/standard_scaffold.dart';
 
 class ListPage extends StatefulWidget {
   final String listName;
@@ -36,42 +36,15 @@ class _ListPageState extends State<ListPage> {
                         style: Theme.of(context).textTheme.headlineLarge),
                   ],
                 ),
-                Expanded(
-                  child: Container(
-                    height: 200,
-                    color: Colors.limeAccent,
-                    child: ListView(
-                      children: [
-                        for (var listItem in todoList!.items.reversed
-                            .where((it) => !it.isCompleted))
-                          TodoItemWidget(
-                            listItem,
-                            onClick: () {
-                              setState(() {
-                                listItem.isCompleted = !listItem.isCompleted;
-                              });
-                              log("The listitem has been clicked");
-                              updateList();
-                            },
-                          ),
-                        if (todoList?.items.any((it) => it.isCompleted) == true)
-                          const Text("Completed:", textAlign: TextAlign.center),
-                        for (var listItem in todoList!.items.reversed
-                            .where((it) => it.isCompleted))
-                          TodoItemWidget(
-                            listItem,
-                            onClick: () {
-                              setState(() {
-                                listItem.isCompleted = !listItem.isCompleted;
-                              });
-                              log("The listitem has been clicked");
-                              updateList();
-                            },
-                          ),
-                      ],
+                if (todoList != null)
+                  Expanded(
+                    child: Container(
+                      height: 200,
+                      color: Colors.limeAccent,
+                      child: ItemView(
+                          todoList: todoList!, onUpdateList: updateList),
                     ),
                   ),
-                ),
                 Row(
                   children: [
                     Expanded(
@@ -100,14 +73,17 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+
+
   void addTodoListItem(String text) {
     setState(() {
-      todoList?.addTodoItem(TodoItem(text, false));
+      todoList?.addTodoItem(item: TodoItem(text), isCompleted: false);
     });
     updateList();
   }
 
   void updateList() {
+    log("Updating list");
     if (todoList != null) {
       ListService.saveList(context, todoList!);
     }

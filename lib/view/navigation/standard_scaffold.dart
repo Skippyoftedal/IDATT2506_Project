@@ -6,8 +6,7 @@ import 'app_drawer.dart';
 class StandardScaffold extends StatelessWidget {
   const StandardScaffold({super.key, required this.body});
   final Widget body;
-  
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,6 +14,5 @@ class StandardScaffold extends StatelessWidget {
       body: body,
       drawer: const AppDrawer(),
     );
-    
   }
 }
