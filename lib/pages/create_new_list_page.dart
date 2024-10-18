@@ -3,7 +3,6 @@ import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 
-
 class CreateNewListPage extends StatefulWidget {
   const CreateNewListPage({super.key});
 
@@ -19,39 +18,36 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     return StandardScaffold(
       body: Container(
         color: Colors.amberAccent,
-        child: Container(
-          color: Colors.red,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text("Add new list"),
-                FractionallySizedBox(
-                  widthFactor: 0.5,
-                  child: TextField(
-                    controller: textController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Create new list",
-                        fillColor: Colors.lightBlue,
-                        filled: true),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text("Add new list"),
+              FractionallySizedBox(
+                widthFactor: 0.8,
+                child: TextField(
+                  controller: textController,
+                  onSubmitted: (_) {
+                    createListAndPush(context);
+                  },
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: "Give your list a name",
+                    fillColor: Colors.lightBlue,
+                    filled: true,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        createListAndPush(context);
+                      },
+                      icon: Icon(Icons.add_circle_outline,
+                          size: 40,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
                   ),
                 ),
-                Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      createListAndPush(context);
-                    },
-                    icon: const Icon(Icons.add),
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -62,7 +58,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     final title = textController.text;
     ListService.createEmptyList(title, context);
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => ListPage(listName: title)),
+      MaterialPageRoute(builder: (_) => ListPage(fileName: title)),
     );
   }
 }
