@@ -26,19 +26,21 @@ class _ItemViewState extends State<ItemView> {
       child: Column(
         children: [
           asScrollableList(widget.todoList.inProgress, false),
+          if (widget.todoList.completed.isNotEmpty) const Text("Finished"),
           asScrollableList(widget.todoList.completed, true),
         ],
       ),
     );
   }
 
-  ReorderableListView asScrollableList(List<TodoItem> items, isCompleted) {
+  ReorderableListView asScrollableList(Iterable<TodoItem> items, isCompleted) {
     return ReorderableListView(
+      reverse: true,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       onReorder: (int oldIndex, int newIndex) {
         setState(() {
-          widget.todoList.reorder(oldIndex, newIndex, isCompleted); //fix this
+          widget.todoList.reorder(oldIndex, newIndex, isCompleted);
           updateList();
         });
       },
@@ -50,16 +52,14 @@ class _ItemViewState extends State<ItemView> {
             child: child,
           ),
       children: [
-        ...getFromCompletedStatus(isCompleted),
+        ...getFromCompletedStatus(items, isCompleted),
       ],
     );
   }
 
-  List<TodoItemWidget> getFromCompletedStatus(bool isCompleted) {
-    var list =
-    isCompleted ? widget.todoList.completed : widget.todoList.inProgress;
+  List<TodoItemWidget> getFromCompletedStatus(items, isCompleted) {
     return [
-      for (var listItem in list)
+      for (var listItem in items)
         TodoItemWidget(
           key: ValueKey(listItem),
           todoItem: listItem,

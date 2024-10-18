@@ -11,12 +11,7 @@ class RouteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        log("Navigating to ${route.prettyName}");
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: route.component),
-        );
-      },
+      onTap: () => navigate(context),
       child: Row(
         children: [
           Icon(
@@ -27,6 +22,13 @@ class RouteWidget extends StatelessWidget {
           Text(route.prettyName),
         ],
       ),
+    );
+  }
+
+  void navigate(context){
+    log("Navigating to ${route.prettyName}");
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: route.component),
     );
   }
 }

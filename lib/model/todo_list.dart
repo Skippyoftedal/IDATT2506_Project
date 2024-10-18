@@ -46,6 +46,17 @@ class TodoList {
     listTo.add(item);
   }
 
+  void reorder(int oldIndex, int newIndex, isCompleted) {
+    print("old index: $oldIndex, newIndex: $newIndex");
+    var list = isCompleted ? completed : inProgress;
+
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final item = list.removeAt(oldIndex);
+    list.insert(newIndex, item);
+  }
+
   List<TodoItem> getAll() {
     return [...completed, ...inProgress];
   }
@@ -55,13 +66,5 @@ class TodoList {
     return "List: '$name' with ${getAll().length} items: [${getAll().join(", ")}]";
   }
 
-  void reorder(int oldIndex, int newIndex, isCompleted) {
-    var list = isCompleted ? completed : inProgress;
 
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
-    final item = list.removeAt(oldIndex);
-    list.insert(newIndex, item);
-  }
 }

@@ -26,7 +26,6 @@ class AppDrawerState extends State<AppDrawer> {
   fetchData() async {
     try {
       var lists = await ListService.getAllLists(context);
-
       setState(() {
         listRoutes = lists
             .map(
@@ -45,53 +44,75 @@ class AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(context) {
     return Drawer(
+      elevation: 2,
+      backgroundColor: Colors.lightGreen,
       child: Column(
         children: [
+          drawerHeader(),
+          ...constantRoutes(),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(top: 20),
-              color: Colors.lightBlueAccent,
-              child: Column(
-                children: [
-                  for (var route in getTopNavigationRoutes())
-                    RouteWidget(route: route),
-                ],
-              ),
-            ),
+            child: ListView(
+                padding: EdgeInsets.zero, children: [...dynamicRoutes()]),
           ),
-          Expanded(
-            child: Container(
-              color: Colors.lightBlueAccent,
-              child: ListView(
-                padding: const EdgeInsets.only(top: 50),
-                children: [
-                  const Text(
-                    "My lists",
-                    textAlign: TextAlign.center,
-                  ),
-                  for (var route in listRoutes)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RouteWidget(route: route),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            showDeleteAlert(context, route.prettyName);
-                          },
-                        )
-                      ],
-                    )
-                ],
-              ),
-            ),
-          ),
-          Container(
-              color: Colors.lightBlue,
-              child: RouteWidget(route: getCreateNewListRoute()))
+          newListRoute()
         ],
       ),
     );
+  }
+
+  drawerHeader() {
+    return Container(
+      padding: EdgeInsets.only(top: 50),
+      color: Colors.red,
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Todo app",
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
+  }
+
+  List<Widget> constantRoutes() {
+    return getTopNavigationRoutes()
+        .map(
+          (route) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RouteWidget(route: route),
+            ],
+          ),
+        )
+        .toList();
+  }
+
+  List<Widget> dynamicRoutes() {
+    return listRoutes
+        .expand((route) => List.generate(10, (_) => route))
+        .map(
+          (route) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RouteWidget(route: route),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  showDeleteAlert(context, route.prettyName);
+                },
+              ),
+            ],
+          ),
+        )
+        .toList();
+  }
+
+  newListRoute() {
+    return Container(
+        color: Colors.lightBlue,
+        child: RouteWidget(route: getCreateNewListRoute()));
   }
 
   showDeleteAlert(BuildContext context, String listToDelete) {

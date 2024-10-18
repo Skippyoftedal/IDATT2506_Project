@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/view/navigation/routes.dart';
 
@@ -21,17 +20,9 @@ class _State extends State<TodoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Todo-app',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
-        useMaterial3: true,
-        textTheme: const TextTheme(
-            headlineLarge:
-            TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            bodyLarge: TextStyle(fontSize: 20)
-        ),
-      ),
+      theme: getAppTheme(),
       home: getMainPage(),
     );
   }
@@ -43,12 +34,22 @@ class _State extends State<TodoApp> {
   }
 
   Future<void> initializeTestData() async {
-    try{
+    try {
       await ListService.removeAllLists();
       await ListService.addTestDataToApplicationDocuments(context);
-    } catch(e){
+    } catch (e) {
       log("Could not add testdata $e");
     }
   }
-}
 
+  ThemeData getAppTheme() {
+    return ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue, brightness: Brightness.light),
+      useMaterial3: true,
+      textTheme: const TextTheme(
+          headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          bodyLarge: TextStyle(fontSize: 20)),
+    );
+  }
+}

@@ -7,7 +7,6 @@ import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
 
-
 class ListPage extends StatefulWidget {
   final String listName;
 
@@ -25,22 +24,16 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return StandardScaffold(
+      title: todoList?.name,
       body: todoList == null
           ? Text(errorMessage)
           : Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(todoList!.name,
-                        style: Theme.of(context).textTheme.headlineLarge),
-                  ],
-                ),
                 if (todoList != null)
                   Expanded(
                     child: Container(
                       height: 200,
-                      color: Colors.limeAccent,
+                      color: Theme.of(context).colorScheme.surface,
                       child: ItemView(
                           todoList: todoList!, onUpdateList: updateList),
                     ),
@@ -55,17 +48,20 @@ class _ListPageState extends State<ListPage> {
                           addTodoListItem(submission);
                         },
                         onEditingComplete: () {},
-                        decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                            enabledBorder: getBorder(),
+                            focusedBorder: getBorder(),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                addTodoListItem(textController.text);
+                                textController.text = "";
+                              },
+                              icon: Icon(Icons.send,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
                             hintText: "Add a new item to the list"),
                       ),
                     ),
-                    IconButton(
-                        onPressed: () {
-                          addTodoListItem(textController.text);
-                          textController.text = "";
-                        },
-                        icon: const Icon(Icons.add))
                   ],
                 ),
               ],
@@ -73,7 +69,13 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
-
+  OutlineInputBorder getBorder() {
+    return OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.primary, width: 2.0),
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10), topRight: Radius.circular(10)));
+  }
 
   void addTodoListItem(String text) {
     setState(() {
@@ -91,8 +93,23 @@ class _ListPageState extends State<ListPage> {
 
   void fetchList() async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
-      final fetched = await ListService.getList(context, widget.listName);
+      //TODO delete before submission, is
+      //TODO not necessary when the lists already exist
+      TodoList? fetched;
+      for (var i = 0; i < 10; i++) {
+        try {
+          await Future.delayed(const Duration(milliseconds: 100));
+          fetched = await ListService.getList(context, widget.listName);
+
+          if (fetched != null) {
+            break;
+          }
+        } catch (e) {
+          if (i == 9) {
+            rethrow;
+          }
+        }
+      }
       log("fetched list $fetched");
       setState(() {
         todoList = fetched;
