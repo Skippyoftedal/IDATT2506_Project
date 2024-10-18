@@ -3,14 +3,16 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
+import 'package:idatt2506_project/services/index_service.dart';
 import 'package:path_provider/path_provider.dart';
 
 
 class ListService {
   static Future<void> addTestDataToApplicationDocuments(context) async {
+
     final rootBundle = DefaultAssetBundle.of(context);
 
-    final testDataNames = ["hyttetur.json", "middag.json"];
+    final testDataNames = ["1.json", "2.json", "3.json", "index.json"];
 
     for (var name in testDataNames) {
       final fileContent = await rootBundle.loadString("assets/testdata/$name");
@@ -19,8 +21,11 @@ class ListService {
       if (!(await file.parent.exists())) {
         await file.parent.create(recursive: true);
       }
-      file.writeAsString(fileContent);
+      await file.writeAsString(fileContent);
     }
+
+    await IndexService().getIndexes(context);
+
   }
 
   static Future<void> removeAllLists() async {
@@ -31,45 +36,21 @@ class ListService {
     }
   }
 
-  static Future<List<String>> getAllListsPaths(BuildContext context) async {
-    final Directory todoListDirectory;
-    {
-      final Directory appDocumentsDir =
-          await getApplicationDocumentsDirectory();
-      todoListDirectory = Directory("${appDocumentsDir.path}/lists");
-    }
-
-    final List<String> paths = await todoListDirectory
-        .list(recursive: false)
-        .map((it) => it.path)
-        .toList();
-    log("Paths found in directory 'lists': $paths");
-
-    return paths;
-  }
-
-  static Future<List<TodoList>> getAllLists(context) async {
-    final paths = await getAllListsPaths(context);
-    List<File> files = paths.map((it) => File(it)).toList();
-
-    List<TodoList> todoLists = await Future.wait(
-      files.map((it) async {
-        String content = await File(it.path).readAsString();
-        var list = TodoList.fromJsonString(content);
-        return list;
-      }).toList(),
-    );
-    return todoLists;
-  }
 
 //TODO this should be optimized
-  static Future<TodoList?> getList(BuildContext context, String name) async {
+  static Future<TodoList?> getList(BuildContext context, String filename) async {
     try {
-      return (await getAllLists(context))
-          .firstWhere((it) => it.name.toLowerCase() == name.toLowerCase());
+      String path = "${await _localPath}/$filename";
+      log("path is $path");
+      String listContent = await File(path).readAsString();
+      return TodoList.fromJsonString(listContent);
     } catch (e) {
-      throw StateError("Could not find list, or the file is corrupt");
+      throw StateError("Could not find list $filename, or the file is corrupt");
     }
+  }
+
+  static Future<bool> filename() async{
+    return true;
   }
 
   static Future<void> saveList(BuildContext context, TodoList list) async {

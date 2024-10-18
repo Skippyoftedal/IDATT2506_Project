@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
+import 'package:idatt2506_project/services/index_service.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/view/navigation/route_widget.dart';
 import 'package:idatt2506_project/view/navigation/routes.dart';
@@ -25,12 +26,12 @@ class AppDrawerState extends State<AppDrawer> {
 
   fetchData() async {
     try {
-      var lists = await ListService.getAllLists(context);
+      var lists = await IndexService().getIndexes(context);
       setState(() {
         listRoutes = lists
             .map(
               (it) => TodoRoute(
-                  it.name, (_) => ListPage(listName: it.name), Icons.list),
+                  it.listName, (_) => ListPage(fileName: it.fileName), Icons.list),
             )
             .toList();
       });
@@ -91,7 +92,7 @@ class AppDrawerState extends State<AppDrawer> {
 
   List<Widget> dynamicRoutes() {
     return listRoutes
-        .expand((route) => List.generate(10, (_) => route))
+        .expand((route) => List.generate(1, (_) => route))//TODO delete before release
         .map(
           (route) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

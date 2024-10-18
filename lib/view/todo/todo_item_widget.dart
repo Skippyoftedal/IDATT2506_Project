@@ -1,9 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
-import 'package:confetti/confetti.dart';
 
 class TodoItemWidget extends StatefulWidget {
   final TodoItem todoItem;

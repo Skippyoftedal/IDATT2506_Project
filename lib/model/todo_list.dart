@@ -34,6 +34,10 @@ class TodoList {
     return {"name": name, "completed": completed, "inProgress": inProgress};
   }
 
+  bool isTotallyEmpty() {
+    return completed.isEmpty && inProgress.isEmpty;
+  }
+
   void addTodoItem({required TodoItem item, isCompleted = false}) {
     var list = isCompleted ? completed : inProgress;
     list.add(item);
@@ -65,6 +69,4 @@ class TodoList {
   String toString() {
     return "List: '$name' with ${getAll().length} items: [${getAll().join(", ")}]";
   }
-
-
 }

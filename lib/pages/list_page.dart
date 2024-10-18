@@ -8,9 +8,9 @@ import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
 
 class ListPage extends StatefulWidget {
-  final String listName;
+  final String fileName;
 
-  const ListPage({super.key, required this.listName});
+  const ListPage({super.key, required this.fileName});
 
   @override
   State<ListPage> createState() => _ListPageState();
@@ -29,6 +29,17 @@ class _ListPageState extends State<ListPage> {
           ? Text(errorMessage)
           : Column(
               children: [
+                if (todoList?.isTotallyEmpty() ?? false)
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: const Text(
+                      "The list is empty! Add some items by typing in the textbox 😉",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20
+                      ),
+                    ),
+                  ),
                 if (todoList != null)
                   Expanded(
                     child: Container(
@@ -99,7 +110,7 @@ class _ListPageState extends State<ListPage> {
       for (var i = 0; i < 10; i++) {
         try {
           await Future.delayed(const Duration(milliseconds: 100));
-          fetched = await ListService.getList(context, widget.listName);
+          fetched = await ListService.getList(context, widget.fileName);
 
           if (fetched != null) {
             break;

@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "listName": "empty",
+      "fileName": "1.json"
+    },
+    {
+      "listName": "hyttetur",
+      "fileName": "2.json"
+    },
+    {
+      "listName": "middag",
+      "fileName": "3.json"
+    }
+  ]
+}

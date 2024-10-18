@@ -29,7 +29,7 @@ class RouteManager{
 
   static Widget getMainPage() {
     //return const CreateNewListPage();
-    return const ListPage(listName: "hyttetur");
+    return const ListPage(fileName: "1.json");
   }
 
   static TodoRoute getCreateNewListRoute() {
