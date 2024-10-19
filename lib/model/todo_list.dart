@@ -18,7 +18,7 @@ class TodoList {
         .map((item) => TodoItem.fromJson(item))
         .toList();
 
-    return TodoList(json["name"], completedJson, inProgressJson);
+    return TodoList("Name has not been updated", completedJson, inProgressJson);
   }
 
   factory TodoList.fromJsonString(String json) {
@@ -31,7 +31,7 @@ class TodoList {
   }
 
   Map<String, dynamic> toJson() {
-    return {"name": name, "completed": completed, "inProgress": inProgress};
+    return {"completed": completed, "inProgress": inProgress};
   }
 
   bool isTotallyEmpty() {

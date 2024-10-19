@@ -6,7 +6,7 @@ import 'package:idatt2506_project/view/navigation/todo_route.dart';
 
 class RouteManager {
   static final TodoRoute home =
-      TodoRoute("Home", (_) => const ListPage(fileName: "1.json"), Icons.home);
+      TodoRoute("Home", (_) => const ListPage(listName: "empty"), Icons.home);
 
   static final TodoRoute settings = TodoRoute("Settings",
       (_) => const TestPage(pageTitle: "test page 1"), Icons.settings);

@@ -1,15 +1,32 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+
+import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:idatt2506_project/model/index_file.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {});
 
+  test('json parsing of index file', () {
+    String fileContent = '''
+    {
+      "files": [
+        {
+          "listName": "test",
+          "fileName": "test.json"
+        }
+      ]
+    }
+    ''';
+
+    IndexFile expected =
+    IndexFile(files: [FileItem(listName: "test", fileName: "test.json")]);
+
+    IndexFile actual = IndexFile.fromJson(jsonDecode(fileContent));
+
+    expect(actual.files[0].listName, expected.files[0].listName);
+    expect(actual.files[0].fileName, expected.files[0].fileName);
+
+    expect(jsonEncode(expected.toJson()), jsonEncode(jsonDecode(fileContent)));
   });
 }

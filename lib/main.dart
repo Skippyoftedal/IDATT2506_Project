@@ -36,7 +36,7 @@ class _State extends State<TodoApp> {
   Future<void> initializeTestData() async {
     try {
       await ListService.removeAllLists();
-      await ListService.addTestDataToApplicationDocuments(context);
+      await ListService.addTestData(context);
     } catch (e) {
       log("Could not add testdata $e");
     }

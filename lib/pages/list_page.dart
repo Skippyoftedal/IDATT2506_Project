@@ -9,9 +9,9 @@ import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
 
 class ListPage extends StatefulWidget {
-  final String fileName;
+  final String listName;
 
-  const ListPage({super.key, required this.fileName});
+  const ListPage({super.key, required this.listName});
 
   @override
   State<ListPage> createState() => _ListPageState();
@@ -104,7 +104,7 @@ class _ListPageState extends State<ListPage> {
   void updateList() {
     log("Updating list");
     if (todoList != null) {
-      ListService.saveList(context, todoList!);
+      ListService.saveList( todoList!);
     }
   }
 
@@ -116,7 +116,7 @@ class _ListPageState extends State<ListPage> {
       for (var i = 0; i < 10; i++) {
         try {
           await Future.delayed(const Duration(milliseconds: 100));
-          fetched = await ListService.getList(context, widget.fileName);
+          fetched = await ListService.getList(widget.listName);
 
           if (fetched != null) {
             break;

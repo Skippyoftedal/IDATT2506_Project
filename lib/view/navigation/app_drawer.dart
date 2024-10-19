@@ -26,12 +26,12 @@ class AppDrawerState extends State<AppDrawer> {
 
   fetchData() async {
     try {
-      var lists = await IndexService().getIndexes(context);
+      var lists = await IndexService().getIndexes();
       setState(() {
         listRoutes = lists
             .map(
               (it) => TodoRoute(
-                  it.listName, (_) => ListPage(fileName: it.fileName), Icons.list),
+                  it.listName, (_) => ListPage(listName: it.listName), Icons.list),
             )
             .toList();
       });

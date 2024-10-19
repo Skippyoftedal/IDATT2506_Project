@@ -56,9 +56,9 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
 
   void createListAndPush(BuildContext context) {
     final title = textController.text;
-    ListService.createEmptyList(title, context);
+    ListService.createEmptyList(title);
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => ListPage(fileName: title)),
+      MaterialPageRoute(builder: (_) => ListPage(listName: title)),
     );
   }
 }

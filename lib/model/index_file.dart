@@ -18,15 +18,17 @@ class IndexFile {
     }
   }
 
+  Map<String, dynamic> toJson() {
+    return {"files": files};
+  }
+
   @override
   String toString() {
-    return "{${files
-        .map((item) => "${item.listName} : ${item.fileName}")
-        .join(", ")}}";
+    return "{${files.map((item) => "${item.listName} : ${item.fileName}").join(", ")}}";
   }
 }
 
-class FileItem{
+class FileItem {
   final String listName;
   final String fileName;
 
@@ -41,5 +43,12 @@ class FileItem{
     }
   }
 
+  Map<String, dynamic> toJson() {
+    return {"listName": listName, "fileName": fileName};
+  }
 
+  @override
+  String toString() {
+    return "{$listName: $fileName}";
+  }
 }

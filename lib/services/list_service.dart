@@ -2,84 +2,81 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/model/index_file.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/services/index_service.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:uuid/uuid.dart';
 
 class ListService {
-  static Future<void> addTestDataToApplicationDocuments(context) async {
-
+  static Future<void> addTestData(context) async {
     final rootBundle = DefaultAssetBundle.of(context);
-
-    final testDataNames = ["1.json", "2.json", "3.json", "index.json"];
+    final testDataNames = ["empty", "hyttetur", "middag"];
 
     for (var name in testDataNames) {
       final fileContent = await rootBundle.loadString("assets/testdata/$name");
-
-      final file = File("${await _localPath}/$name");
-      if (!(await file.parent.exists())) {
-        await file.parent.create(recursive: true);
-      }
-      await file.writeAsString(fileContent);
+      final list = TodoList.fromJsonString(fileContent);
+      list.name = name;
+      saveList(list);
     }
-
-    await IndexService().getIndexes(context);
 
   }
 
   static Future<void> removeAllLists() async {
     log("WARNING: Removing all lists!");
-    final directory = Directory(await _localPath);
+    final directory = Directory(await localPath);
     if (await directory.exists()) {
-      directory.delete(recursive: true);
+      await directory.delete(recursive: true);
     }
+    await directory.create();
   }
 
-
-//TODO this should be optimized
-  static Future<TodoList?> getList(BuildContext context, String filename) async {
+  static Future<TodoList?> getList(String listName) async {
+    final String fileName = await IndexService().getFileName(listName);
+    final String path = "${await localPath}/$fileName";
     try {
-      String path = "${await _localPath}/$filename";
       log("path is $path");
       String listContent = await File(path).readAsString();
-      return TodoList.fromJsonString(listContent);
+      TodoList list = TodoList.fromJsonString(listContent);
+      list.name = listName;
+      return list;
     } catch (e) {
-      throw StateError("Could not find list $filename, or the file is corrupt");
+      log(e.toString());
+      throw StateError("Could not open list with name $listName at path $path");
     }
   }
 
-  static Future<bool> filename() async{
-    return true;
-  }
-
-  static Future<void> saveList(BuildContext context, TodoList list) async {
+  static Future<void> saveList(TodoList list) async {
     try {
-      log("Saving list");
+      final filename = const Uuid().v4();
+      log("Saving list with name ${list.name} as $filename");
 
-      File file = File("${await _localPath}/${list.name}.json");
+      File file = File("${await localPath}/$filename");
       if (!await file.exists()) {
         file.create();
       }
       final json = jsonEncode(list);
       file.writeAsString(json);
+      IndexService()
+          .addIndex(FileItem(listName: list.name, fileName: filename));
     } catch (e) {
       log(e.toString());
       throw StateError("could not save list");
     }
   }
 
-  static Future<String> get _localPath async {
+  static Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return "${directory.path}/lists";
   }
 
-  static Future<void> createEmptyList(String name, context) async {
-    saveList(context, TodoList(name, List.empty(), List.empty()));
+  static Future<void> createEmptyList(String name) async {
+    saveList(TodoList(name, List.empty(), List.empty()));
   }
 
   static Future<void> deleteList(String listName) async {
-    final file = File("${await _localPath}/$listName.json");
+    final file = File(
+        "${await localPath}/${await IndexService().getFileName(listName)}");
     if (await file.exists()) {
       file.delete();
     }
