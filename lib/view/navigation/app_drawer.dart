@@ -24,7 +24,7 @@ class AppDrawerState extends State<AppDrawer> {
     super.initState();
   }
 
-  fetchData() async {
+  Future<void >fetchData() async {
     try {
       var lists = await IndexService().getIndexes();
       setState(() {
@@ -110,7 +110,7 @@ class AppDrawerState extends State<AppDrawer> {
         child: RouteWidget(route: RouteManager.createNew));
   }
 
-  showDeleteAlert(BuildContext context, String listToDelete) {
+  Future<void> showDeleteAlert(BuildContext context, String listToDelete) async {
     Widget cancel = TextButton(
       child: const Text("Cancel"),
       onPressed: () {
@@ -120,10 +120,10 @@ class AppDrawerState extends State<AppDrawer> {
 
     Widget confirmDelete = TextButton(
       child: const Text("Continue"),
-      onPressed: () {
+      onPressed: () async {
         Navigator.of(context).pop();
-        ListService.deleteList(listToDelete);
-        fetchData();
+        await ListService.deleteList(listToDelete);
+        await fetchData();
       },
     );
 

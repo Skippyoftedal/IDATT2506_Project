@@ -37,7 +37,7 @@ class _State extends State<TodoApp> {
     final AssetBundle rootBundle = DefaultAssetBundle.of(context);
     try {
 
-      await ListService.removeAllLists();
+      await ListService.deleteAllLists();
       await ListService.addTestData(rootBundle);
     } catch (e) {
       log("Could not add testdata $e");

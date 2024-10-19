@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:idatt2506_project/model/FileItem.dart';
 import 'package:idatt2506_project/model/index_file.dart';
 
 void main() {

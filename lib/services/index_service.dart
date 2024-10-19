@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:idatt2506_project/model/FileItem.dart';
 import 'package:idatt2506_project/model/index_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class IndexService {
   static final IndexService _singleton = IndexService._internal();
   static final List<FileItem> _indexes = List.empty(growable: true);
-
 
   IndexService._internal();
 
@@ -17,7 +17,6 @@ class IndexService {
   }
 
   bool isFetched = false;
-
 
   Future<List<FileItem>> getIndexes() async {
     await updateIndexes();
@@ -35,9 +34,7 @@ class IndexService {
   Future<String> getFileName(String listName) async {
     log("Trying to find filename for $listName");
     await updateIndexes();
-    return _indexes
-        .firstWhere((it) => it.listName == listName)
-        .fileName;
+    return _indexes.firstWhere((it) => it.listName == listName).fileName;
   }
 
   Future<void> filenameIsAvailable(String filename) async {
@@ -55,21 +52,22 @@ class IndexService {
     }
   }
 
-  Future<void> _fetchIndexes() async {
+  Future<void> _fetchIndexesFromFile() async {
     log("Fetching indexes");
     IndexFile parsed =
-    IndexFile.fromJson(jsonDecode(await (await _indexFile).readAsString()));
+        IndexFile.fromJson(jsonDecode(await (await _indexFile).readAsString()));
     log("Found json: $parsed");
     _indexes.addAll(parsed.files);
   }
 
-  Future<void> updateIndexes() async{
-    if (!isFetched){
-      await _fetchIndexes();
+  Future<void> updateIndexes() async {
+    if (!isFetched) {
+      isFetched = true;
+      await _fetchIndexesFromFile();
     }
   }
 
-  Future<void> clearIndexes()async {
+  Future<void> clearIndexes() async {
     _indexes.clear();
     (await _indexFile).delete();
   }
@@ -84,5 +82,9 @@ class IndexService {
       await file.writeAsString(jsonEncode(IndexFile(files: List.empty())));
     }
     return file;
+  }
+
+  void removeList(String listName) {
+    _indexes.removeWhere((it) => it.listName == listName);
   }
 }

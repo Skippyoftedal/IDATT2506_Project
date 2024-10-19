@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:idatt2506_project/model/index_file.dart';
+import 'package:idatt2506_project/model/FileItem.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/services/index_service.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,7 +20,7 @@ class ListService {
     }
   }
 
-  static Future<void> removeAllLists() async {
+  static Future<void> deleteAllLists() async {
     log("WARNING: Removing all lists!");
     final directory = Directory(await localPath);
     if (await directory.exists()) {
@@ -57,7 +57,7 @@ class ListService {
       if (!await file.exists()) {
         file.create();
       }
-      final json = jsonEncode(list);
+      final String json = jsonEncode(list);
       file.writeAsString(json);
       IndexService()
           .addIndex(FileItem(listName: list.name, fileName: filename));
@@ -65,6 +65,14 @@ class ListService {
       log(e.toString());
       rethrow;
     }
+  }
+
+  static Future<void> deleteList(String listName) async {
+    File file = File("${await localPath}/${await IndexService().getFileName(listName)}");
+    if (await file.exists()) {
+      await file.delete();
+    }
+    IndexService().removeList(listName);
   }
 
   static Future<String> get localPath async {
@@ -76,11 +84,5 @@ class ListService {
     await saveList(TodoList(name, List.empty(), List.empty()));
   }
 
-  static Future<void> deleteList(String listName) async {
-    final file = File(
-        "${await localPath}/${await IndexService().getFileName(listName)}");
-    if (await file.exists()) {
-      file.delete();
-    }
-  }
+
 }
