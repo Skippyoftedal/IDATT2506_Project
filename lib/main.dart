@@ -34,9 +34,11 @@ class _State extends State<TodoApp> {
   }
 
   Future<void> initializeTestData() async {
+    final AssetBundle rootBundle = DefaultAssetBundle.of(context);
     try {
+
       await ListService.removeAllLists();
-      await ListService.addTestData(context);
+      await ListService.addTestData(rootBundle);
     } catch (e) {
       log("Could not add testdata $e");
     }

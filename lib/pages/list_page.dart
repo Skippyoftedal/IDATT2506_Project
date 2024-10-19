@@ -117,10 +117,7 @@ class _ListPageState extends State<ListPage> {
         try {
           await Future.delayed(const Duration(milliseconds: 100));
           fetched = await ListService.getList(widget.listName);
-
-          if (fetched != null) {
-            break;
-          }
+          break;
         } catch (e) {
           if (i == 9) {
             rethrow;

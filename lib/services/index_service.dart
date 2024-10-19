@@ -18,35 +18,41 @@ class IndexService {
 
   bool isFetched = false;
 
+
   Future<List<FileItem>> getIndexes() async {
     await updateIndexes();
-    print("indexes are: $_indexes");
+    log("indexes are: $_indexes");
     return _indexes;
   }
 
   Future<void> addIndex(FileItem index) async {
-    print("Adding $index to indexes");
+    log("Adding $index to indexes");
     await updateIndexes();
     _indexes.add(index);
     updateIndexes();
   }
 
   Future<String> getFileName(String listName) async {
-    print("Trying to find filename for $listName");
+    log("Trying to find filename for $listName");
     await updateIndexes();
     return _indexes
         .firstWhere((it) => it.listName == listName)
         .fileName;
   }
 
-  Future<bool> filenameIsAvailable(String filename) async {
+  Future<void> filenameIsAvailable(String filename) async {
     await updateIndexes();
-    return _indexes.every((it) => it.fileName != filename);
+    if (_indexes.any((it) => it.fileName == filename)) {
+      throw ArgumentError("Filename '$filename' is already in use.");
+    }
   }
 
-  Future<bool> listNameIsAvailable(String listName) async {
+  Future<void> listNameIsAvailable(String listName) async {
     await updateIndexes();
-    return _indexes.every((it) => it.listName != listName);
+
+    if (_indexes.any((it) => it.listName == listName)) {
+      throw ArgumentError("List name '$listName' is already in use.");
+    }
   }
 
   Future<void> _fetchIndexes() async {
@@ -57,11 +63,15 @@ class IndexService {
     _indexes.addAll(parsed.files);
   }
 
-
   Future<void> updateIndexes() async{
     if (!isFetched){
       await _fetchIndexes();
     }
+  }
+
+  Future<void> clearIndexes()async {
+    _indexes.clear();
+    (await _indexFile).delete();
   }
 
   Future<File> get _indexFile async {
@@ -69,7 +79,7 @@ class IndexService {
     File file = File("${directory.path}/lists/index.json");
 
     if (!await file.exists()) {
-      print("Index file does not exist, will be created now");
+      log("Index file does not exist, will be created now");
       await file.create();
       await file.writeAsString(jsonEncode(IndexFile(files: List.empty())));
     }

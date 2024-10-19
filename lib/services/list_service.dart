@@ -9,8 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ListService {
-  static Future<void> addTestData(context) async {
-    final rootBundle = DefaultAssetBundle.of(context);
+  static Future<void> addTestData(AssetBundle rootBundle) async {
     final testDataNames = ["empty", "hyttetur", "middag"];
 
     for (var name in testDataNames) {
@@ -19,7 +18,6 @@ class ListService {
       list.name = name;
       saveList(list);
     }
-
   }
 
   static Future<void> removeAllLists() async {
@@ -29,9 +27,10 @@ class ListService {
       await directory.delete(recursive: true);
     }
     await directory.create();
+    await IndexService().clearIndexes();
   }
 
-  static Future<TodoList?> getList(String listName) async {
+  static Future<TodoList> getList(String listName) async {
     final String fileName = await IndexService().getFileName(listName);
     final String path = "${await localPath}/$fileName";
     try {
@@ -51,6 +50,9 @@ class ListService {
       final filename = const Uuid().v4();
       log("Saving list with name ${list.name} as $filename");
 
+      await IndexService().filenameIsAvailable(filename);
+      await IndexService().listNameIsAvailable(list.name);
+
       File file = File("${await localPath}/$filename");
       if (!await file.exists()) {
         file.create();
@@ -61,7 +63,7 @@ class ListService {
           .addIndex(FileItem(listName: list.name, fileName: filename));
     } catch (e) {
       log(e.toString());
-      throw StateError("could not save list");
+      rethrow;
     }
   }
 
@@ -71,7 +73,7 @@ class ListService {
   }
 
   static Future<void> createEmptyList(String name) async {
-    saveList(TodoList(name, List.empty(), List.empty()));
+    await saveList(TodoList(name, List.empty(), List.empty()));
   }
 
   static Future<void> deleteList(String listName) async {
