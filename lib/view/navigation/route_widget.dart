@@ -12,22 +12,25 @@ class RouteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => navigate(context),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: const BorderRadius.all(Radius.circular(10))
-        ),
-        child: ListTile(
-          leading: Icon(
-            route.icon,
-            color: Theme.of(context).colorScheme.primary,
-            size: 40.0,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: ListTile(
+              leading: Icon(
+                route.icon,
+                color: Theme.of(context).colorScheme.primary,
+                size: 40.0,
+              ),
+              title: Text(route.prettyName),
+              trailing: trailing,
+            ),
           ),
-          title: Text(route.prettyName),
-          trailing: trailing,
         ),
-      ),
     );
   }
 

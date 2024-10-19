@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
@@ -30,21 +31,17 @@ class _ListPageState extends State<ListPage> {
           : Column(
               children: [
                 if (todoList?.isTotallyEmpty() ?? false)
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: const Text(
-                      "The list is empty! Add some items by typing in the textbox 😉",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20
-                      ),
-                    ),
-                  ),
+                  Container(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest,
+                      child: listIsEmptyMessage()),
                 if (todoList != null)
                   Expanded(
                     child: Container(
                       height: 200,
-                      color: Theme.of(context).colorScheme.surface,
+                      color:
+                          Theme.of(context).colorScheme.surfaceContainerHighest,
                       child: ItemView(
                           todoList: todoList!, onUpdateList: updateList),
                     ),
@@ -77,6 +74,15 @@ class _ListPageState extends State<ListPage> {
                 ),
               ],
             ),
+    );
+  }
+
+  Widget listIsEmptyMessage() {
+    return BubbleSpecialThree(
+      text: "The list is empty! Add some items by typing in the textbox 😉",
+      color: Theme.of(context).colorScheme.tertiary,
+      textStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onTertiary, fontSize: 18),
     );
   }
 
