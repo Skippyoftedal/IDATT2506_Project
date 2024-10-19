@@ -43,7 +43,7 @@ class _ItemViewState extends State<ItemView> {
         child: Column(
           children: [
             asScrollableList(widget.todoList.inProgress, false),
-            if (widget.todoList.completed.isNotEmpty) const Text("Finished"),
+            if (widget.todoList.inProgress.isNotEmpty && widget.todoList.inProgress.isNotEmpty) const Text("Finished"),
             asScrollableList(widget.todoList.completed, true),
           ],
         ),

@@ -46,7 +46,7 @@ class AppDrawerState extends State<AppDrawer> {
   Widget build(context) {
     return Drawer(
       elevation: 2,
-      backgroundColor: Colors.lightGreen,
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       child: Column(
         children: [
           drawerHeader(),
@@ -55,7 +55,7 @@ class AppDrawerState extends State<AppDrawer> {
             child: ListView(
                 padding: EdgeInsets.zero, children: [...dynamicRoutes()]),
           ),
-          newListRoute()
+           newListRoute()
         ],
       ),
     );
@@ -64,13 +64,17 @@ class AppDrawerState extends State<AppDrawer> {
   drawerHeader() {
     return Container(
       padding: const EdgeInsets.only(top: 50),
-      color: Colors.red,
-      child: const Row(
+      color: Theme.of(context).colorScheme.primary,
+      child:  Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             "Todo app",
             textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: Theme.of(context).textTheme.headlineLarge?.fontSize
+            ),
           )
         ],
       ),
@@ -78,14 +82,9 @@ class AppDrawerState extends State<AppDrawer> {
   }
 
   List<Widget> constantRoutes() {
-    return RouteManager.getTopNavigationRoutes()
-        .map(
-          (route) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RouteWidget(route: route),
-            ],
-          ),
+    return RouteManager.topRoutes
+        .map((route) => RouteWidget(route: route),
+
         )
         .toList();
   }
@@ -94,17 +93,12 @@ class AppDrawerState extends State<AppDrawer> {
     return listRoutes
         .expand((route) => List.generate(1, (_) => route))//TODO delete before release
         .map(
-          (route) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RouteWidget(route: route),
-              IconButton(
+          (route) =>
+              RouteWidget(route: route, trailing: IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {
                   showDeleteAlert(context, route.prettyName);
-                },
-              ),
-            ],
+                },),
           ),
         )
         .toList();
@@ -112,8 +106,8 @@ class AppDrawerState extends State<AppDrawer> {
 
   newListRoute() {
     return Container(
-        color: Colors.lightBlue,
-        child: RouteWidget(route: RouteManager.getCreateNewListRoute()));
+        color: Theme.of(context).colorScheme.primary,
+        child: RouteWidget(route: RouteManager.createNew));
   }
 
   showDeleteAlert(BuildContext context, String listToDelete) {

@@ -23,7 +23,7 @@ class _State extends State<TodoApp> {
       title: 'Todo-app',
       debugShowCheckedModeBanner: false,
       theme: getAppTheme(),
-      home: RouteManager.getMainPage(),
+      home: RouteManager.home.component(context),
     );
   }
 
