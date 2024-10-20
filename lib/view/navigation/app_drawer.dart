@@ -6,7 +6,7 @@ import 'package:idatt2506_project/services/index_service.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/view/navigation/route_widget.dart';
 import 'package:idatt2506_project/view/navigation/routes.dart';
-import 'package:idatt2506_project/view/navigation/todo_route.dart';
+import 'package:idatt2506_project/model/todo_route.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});

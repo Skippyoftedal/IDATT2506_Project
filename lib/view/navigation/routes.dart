@@ -2,7 +2,7 @@ import 'package:idatt2506_project/pages/create_new_list_page.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/pages/test_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:idatt2506_project/view/navigation/todo_route.dart';
+import 'package:idatt2506_project/model/todo_route.dart';
 
 class RouteManager {
   // static final TodoRoute home =

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-//TODO move this file
 class TodoRoute {
   static final int defaultCodePoint = Icons.error_outline_sharp.codePoint;
 

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:idatt2506_project/view/navigation/todo_route.dart';
+import 'package:idatt2506_project/model/todo_route.dart';
 
 class RouteWidget extends StatelessWidget {
   final TodoRoute route;
