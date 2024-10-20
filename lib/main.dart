@@ -32,7 +32,7 @@ class _TodoAppState extends State<TodoApp> {
   @override
   void initState() {
     super.initState();
-    initializeTestData();
+    //initializeTestData();
   }
 
   Future<void> initializeTestData() async {

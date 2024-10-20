@@ -31,7 +31,7 @@ class AppDrawerState extends State<AppDrawer> {
         listRoutes = lists
             .map(
               (it) => TodoRoute(
-                  it.listName, (_) => ListPage(listName: it.listName), Icons.list),
+                  it.listName, (_) => ListPage(listName: it.listName), it.iconCodePoint),
             )
             .toList();
       });

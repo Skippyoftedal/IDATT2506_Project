@@ -16,7 +16,8 @@ class ListService {
       final fileContent = await rootBundle.loadString("assets/testdata/$name");
       final list = TodoList.fromJsonString(fileContent);
       list.name = name;
-      saveList(list);
+      list.iconCodePoint = Icons.ac_unit.codePoint;
+      await saveList(list);
     }
   }
 
@@ -31,13 +32,15 @@ class ListService {
   }
 
   static Future<TodoList> getList(String listName) async {
-    final String fileName = await IndexService().getFileName(listName);
+    final IndexItem indexItem = await IndexService().getIndex(listName);
+    final String fileName = indexItem.fileName;
     final String path = "${await localPath}/$fileName";
     try {
       log("path is $path");
       String listContent = await File(path).readAsString();
       TodoList list = TodoList.fromJsonString(listContent);
-      list.name = listName;
+      list.iconCodePoint = indexItem.iconCodePoint;
+      list.name = indexItem.listName;
       return list;
     } catch (e) {
       log(e.toString());
@@ -46,10 +49,15 @@ class ListService {
   }
 
   static Future<void> saveList(TodoList list) async {
+    print("Here 3: ${list.iconCodePoint}");
     try {
-      final filename = const Uuid().v4();
-      log("Saving list with name ${list.name} as $filename");
+      if (list.iconCodePoint == null) {
+        throw StateError("Cannot save a list with no codepoint");
+      }
 
+      final filename = const Uuid().v4();
+      log("Saving list with name ${list.name} and codepoint ${list.iconCodePoint} as $filename");
+      //TODO remove
       await IndexService().filenameIsAvailable(filename);
       await IndexService().listNameIsAvailable(list.name);
 
@@ -59,8 +67,10 @@ class ListService {
       }
       final String json = jsonEncode(list);
       file.writeAsString(json);
-      IndexService()
-          .addIndex(IndexItem(listName: list.name, fileName: filename));
+      IndexService().addIndex(IndexItem(
+          listName: list.name,
+          fileName: filename,
+          iconCodePoint: list.iconCodePoint));
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -68,7 +78,8 @@ class ListService {
   }
 
   static Future<void> deleteList(String listName) async {
-    File file = File("${await localPath}/${await IndexService().getFileName(listName)}");
+    File file =
+        File("${await localPath}/${await IndexService().getIndex(listName)}");
     if (await file.exists()) {
       await file.delete();
     }
@@ -80,9 +91,15 @@ class ListService {
     return "${directory.path}/lists";
   }
 
-  static Future<void> createEmptyList(String name) async {
-    await saveList(TodoList(name, List.empty(), List.empty()));
+  static Future<void> createEmptyList(
+      {required String name, required int iconCodePoint}) async {
+    print("Here 2: $iconCodePoint");
+    await saveList(
+      TodoList(
+          name: name,
+          inProgress: List.empty(),
+          completed: List.empty(),
+          iconCodePoint: iconCodePoint),
+    );
   }
-
-
 }

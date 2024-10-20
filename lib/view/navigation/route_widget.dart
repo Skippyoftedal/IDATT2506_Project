@@ -22,7 +22,8 @@ class RouteWidget extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: ListTile(
               leading: Icon(
-                route.icon,
+                  IconData(route.iconCodePoint,
+                      fontFamily: 'MaterialIcons'),
                 color: Theme.of(context).colorScheme.primary,
                 size: 40.0,
               ),

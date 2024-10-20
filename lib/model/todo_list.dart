@@ -7,8 +7,8 @@ class TodoList {
   String name;
   List<TodoItem> completed;
   List<TodoItem> inProgress;
-
-  TodoList(this.name, this.completed, this.inProgress);
+  int? iconCodePoint;
+  TodoList({required this.name, required this.completed, required this.inProgress, this.iconCodePoint});
 
   factory TodoList.fromJson(Map<String, dynamic> json) {
     var completedJson = (json["completed"] as List)
@@ -18,7 +18,7 @@ class TodoList {
         .map((item) => TodoItem.fromJson(item))
         .toList();
 
-    return TodoList("Name has not been updated", completedJson, inProgressJson);
+    return TodoList(name: "Name has not been updated", completed: completedJson, inProgress: inProgressJson);
   }
 
   factory TodoList.fromJsonString(String json) {

@@ -39,7 +39,6 @@ class _ListPageState extends State<ListPage> {
                 if (todoList != null)
                   Expanded(
                     child: Container(
-                      height: 200,
                       color:
                           Theme.of(context).colorScheme.surfaceContainerHighest,
                       child: ItemView(

@@ -31,10 +31,10 @@ class IndexService {
     updateIndexes();
   }
 
-  Future<String> getFileName(String listName) async {
+  Future<IndexItem> getIndex(String listName) async {
     log("Trying to find filename for $listName");
     await updateIndexes();
-    return _indexes.firstWhere((it) => it.listName == listName).fileName;
+    return _indexes.firstWhere((it) => it.listName == listName);
   }
 
   Future<void> filenameIsAvailable(String filename) async {
