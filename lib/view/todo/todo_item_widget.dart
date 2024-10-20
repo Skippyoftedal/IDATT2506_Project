@@ -19,6 +19,7 @@ class TodoItemWidget extends StatefulWidget {
 
 class _TodoItemWidgetState extends State<TodoItemWidget> {
   late bool isCompleted;
+  bool hasBeenClicked = false;
   static const fadeTime = Duration(milliseconds: 500);
 
   @override
@@ -31,6 +32,14 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
   final controller = FadeInController();
 
   void onWidgetClicked() async {
+    if (hasBeenClicked){
+      //Do not remove this, this makes sure the list cannot be
+      //pressed twice by accident, loading duplicate in the parent widget.
+      return;
+    }
+
+    hasBeenClicked = true;
+
     setState(() {
       isCompleted = true;
     });
@@ -38,6 +47,8 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
     controller.fadeOut();
     await Future.delayed(fadeTime);
     widget.onClick();
+
+    hasBeenClicked = false;
   }
 
   @override
