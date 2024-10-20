@@ -46,7 +46,7 @@ class ListService {
 
       final String filename =
           (await IndexService().getIndex(list.name)).fileName;
-      log("Saving list with name ${list.name} and codepoint ${list.iconCodePoint} as $filename \n${list.toString()}");
+      log("Updating list with name ${list.name} and codepoint ${list.iconCodePoint} as $filename \n${list.toString()}");
 
       File file = File("${await localPath}/$filename");
       final String json = jsonEncode(list);
