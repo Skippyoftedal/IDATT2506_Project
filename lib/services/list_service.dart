@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ListService {
+
+  static const listDirectoryPath = "lists";
   static Future<void> deleteAllLists() async {
     log("WARNING: Removing all lists!");
     final directory = Directory(await localPath);
@@ -26,7 +28,7 @@ class ListService {
       log("path is $path");
       final String listContent = await File(path).readAsString();
 
-      print("List content read is $listContent");
+      log("List content read is $listContent");
 
       final TodoList list = TodoList.fromJsonString(listContent);
       list.iconCodePoint = indexItem.iconCodePoint;
@@ -50,7 +52,7 @@ class ListService {
 
       File file = File("${await localPath}/$filename");
       final String json = jsonEncode(list);
-      file.writeAsString(json);
+      await file.writeAsString(json);
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -75,7 +77,7 @@ class ListService {
       final String json = jsonEncode(list);
       file.writeAsString(json);
 
-      IndexService().addIndex(IndexItem(
+      await IndexService().addIndex(IndexItem(
           listName: list.name,
           fileName: filename,
           iconCodePoint: list.iconCodePoint));
@@ -96,7 +98,7 @@ class ListService {
 
   static Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
-    return "${directory.path}/lists";
+    return "${directory.path}/$listDirectoryPath";
   }
 
   static Future<void> createEmptyList(

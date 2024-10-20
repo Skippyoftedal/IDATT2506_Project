@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/services/input_validator.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/view/error/critical_error.dart';
@@ -148,6 +149,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     final title = textController.text;
     String? errorMessage;
     try {
+      InputValidator.validListName(title);
       await ListService.createEmptyList(name: title, iconCodePoint: selectedIconCodePoint);
       navigator.push(
         MaterialPageRoute(builder: (_) => ListPage(listName: title)),
