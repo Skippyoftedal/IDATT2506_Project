@@ -1,14 +1,14 @@
 import 'dart:developer';
 
-class FileItem {
+class IndexItem {
     final String listName;
     final String fileName;
 
-    FileItem({required this.listName, required this.fileName});
+    IndexItem({required this.listName, required this.fileName});
 
-    factory FileItem.fromJson(Map<String, dynamic> json) {
+    factory IndexItem.fromJson(Map<String, dynamic> json) {
         try {
-            return FileItem(listName: json["listName"], fileName: json["fileName"]);
+            return IndexItem(listName: json["listName"], fileName: json["fileName"]);
         } catch (e) {
             log("json parsing error for todoItem :$e");
             throw StateError("Cannot parse $json");

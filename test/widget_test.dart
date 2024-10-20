@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:idatt2506_project/model/FileItem.dart';
+import 'package:idatt2506_project/model/index_file_item.dart';
 import 'package:idatt2506_project/model/index_file.dart';
 
 void main() {
@@ -21,7 +21,7 @@ void main() {
     ''';
 
     IndexFile expected =
-    IndexFile(files: [FileItem(listName: "test", fileName: "test.json")]);
+    IndexFile(files: [IndexItem(listName: "test", fileName: "test.json")]);
 
     IndexFile actual = IndexFile.fromJson(jsonDecode(fileContent));
 

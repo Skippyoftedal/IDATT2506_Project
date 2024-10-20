@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:idatt2506_project/model/FileItem.dart';
+import 'package:idatt2506_project/model/index_file_item.dart';
 import 'package:idatt2506_project/model/index_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class IndexService {
   static final IndexService _singleton = IndexService._internal();
-  static final List<FileItem> _indexes = List.empty(growable: true);
+  static final List<IndexItem> _indexes = List.empty(growable: true);
 
   IndexService._internal();
 
@@ -18,13 +18,13 @@ class IndexService {
 
   bool isFetched = false;
 
-  Future<List<FileItem>> getIndexes() async {
+  Future<List<IndexItem>> getIndexes() async {
     await updateIndexes();
     log("indexes are: $_indexes");
     return _indexes;
   }
 
-  Future<void> addIndex(FileItem index) async {
+  Future<void> addIndex(IndexItem index) async {
     log("Adding $index to indexes");
     await updateIndexes();
     _indexes.add(index);
