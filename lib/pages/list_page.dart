@@ -103,7 +103,7 @@ class _ListPageState extends State<ListPage> {
   void updateList() {
     log("Updating list");
     if (todoList != null) {
-      ListService.saveList( todoList!);
+      ListService.updateList( todoList!);
     }
   }
 

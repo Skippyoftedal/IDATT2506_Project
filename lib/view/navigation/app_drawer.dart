@@ -26,7 +26,7 @@ class AppDrawerState extends State<AppDrawer> {
 
   Future<void >fetchData() async {
     try {
-      var lists = await IndexService().getIndexes();
+      var lists = await IndexService().indexes;
       setState(() {
         listRoutes = lists
             .map(

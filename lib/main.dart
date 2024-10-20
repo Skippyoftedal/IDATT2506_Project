@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/services/test_data_service.dart';
 import 'package:idatt2506_project/view/navigation/routes.dart';
 import 'package:idatt2506_project/view/theme/themes.dart';
 
@@ -39,7 +40,7 @@ class _TodoAppState extends State<TodoApp> {
     final AssetBundle rootBundle = DefaultAssetBundle.of(context);
     try {
       await ListService.deleteAllLists();
-      await ListService.addTestData(rootBundle);
+      await TestDataService.addTestData(rootBundle);
     } catch (e) {
       log("Could not add testdata $e");
     }

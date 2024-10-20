@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 class IndexService {
   static final IndexService _singleton = IndexService._internal();
   static final List<IndexItem> _indexes = List.empty(growable: true);
-
+  static const String _indexPath = "lists/index.json";
   IndexService._internal();
 
   factory IndexService() {
@@ -18,52 +18,50 @@ class IndexService {
 
   bool isFetched = false;
 
-  Future<List<IndexItem>> getIndexes() async {
-    await updateIndexes();
-    log("indexes are: $_indexes");
-    return _indexes;
-  }
 
-  Future<void> addIndex(IndexItem index) async {
-    log("Adding $index to indexes");
-    await updateIndexes();
-    _indexes.add(index);
-    updateIndexes();
-  }
-
-  Future<IndexItem> getIndex(String listName) async {
-    log("Trying to find filename for $listName");
-    await updateIndexes();
-    return _indexes.firstWhere((it) => it.listName == listName);
-  }
-
-  Future<void> filenameIsAvailable(String filename) async {
-    await updateIndexes();
-    if (_indexes.any((it) => it.fileName == filename)) {
-      throw ArgumentError("Filename '$filename' is already in use.");
-    }
-  }
-
-  Future<void> listNameIsAvailable(String listName) async {
-    await updateIndexes();
-
-    if (_indexes.any((it) => it.listName == listName)) {
-      throw ArgumentError("List name '$listName' is already in use.");
+  Future<void> updateIndexes() async {
+    if (!isFetched) {
+      isFetched = true;
+      await _fetchIndexesFromFile();
     }
   }
 
   Future<void> _fetchIndexesFromFile() async {
     log("Fetching indexes");
     IndexFile parsed =
-        IndexFile.fromJson(jsonDecode(await (await _indexFile).readAsString()));
-    log("Found json: $parsed");
+    IndexFile.fromJson(jsonDecode(await (await _indexFile).readAsString()));
+    log("Found indexes from file: json: $parsed");
     _indexes.addAll(parsed.files);
   }
 
-  Future<void> updateIndexes() async {
-    if (!isFetched) {
-      isFetched = true;
-      await _fetchIndexesFromFile();
+  Future<List<IndexItem>> get indexes async {
+    await updateIndexes();
+
+    log("indexes are: $_indexes");
+    return _indexes;
+  }
+
+  Future<void> addIndex(IndexItem index) async {
+    await updateIndexes();
+
+    log("Adding $index to indexes");
+    _indexes.add(index);
+    await writeIndexes();
+  }
+
+  Future<IndexItem> getIndex(String listName) async {
+    await updateIndexes();
+
+    log("Trying to find filename for $listName");
+    return _indexes.firstWhere((it) => it.listName == listName);
+  }
+
+
+  Future<void> listNameIsAvailable(String listName) async {
+    await updateIndexes();
+
+    if (_indexes.any((it) => it.listName == listName)) {
+      throw ArgumentError("List name '$listName' is already in use.");
     }
   }
 
@@ -74,7 +72,7 @@ class IndexService {
 
   Future<File> get _indexFile async {
     Directory directory = await getApplicationDocumentsDirectory();
-    File file = File("${directory.path}/lists/index.json");
+    File file = File("${directory.path}/$_indexPath");
 
     if (!await file.exists()) {
       log("Index file does not exist, will be created now");
@@ -84,7 +82,16 @@ class IndexService {
     return file;
   }
 
-  void removeList(String listName) {
+  Future<void> removeList(String listName) async {
     _indexes.removeWhere((it) => it.listName == listName);
+    writeIndexes();
+  }
+
+  Future<void> writeIndexes()async {
+    await updateIndexes();
+
+    log("Writing indexes: $_indexes to file");
+    File file = await _indexFile;
+    await file.writeAsString(jsonEncode(IndexFile(files: _indexes)));
   }
 }

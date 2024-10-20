@@ -148,7 +148,6 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     final title = textController.text;
     String? errorMessage;
     try {
-      print("Selected is $selectedIconCodePoint HERE");
       await ListService.createEmptyList(name: title, iconCodePoint: selectedIconCodePoint);
       navigator.push(
         MaterialPageRoute(builder: (_) => ListPage(listName: title)),
