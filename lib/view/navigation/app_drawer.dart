@@ -53,7 +53,7 @@ class AppDrawerState extends State<AppDrawer> {
           ...constantRoutes(),
           Expanded(
             child: ListView(
-                padding: EdgeInsets.zero, children: [...dynamicRoutes()]),
+                padding: EdgeInsets.zero, children: [...dynamicRoutes().reversed]),
           ),
            newListRoute()
         ],
