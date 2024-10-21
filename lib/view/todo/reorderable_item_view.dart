@@ -3,6 +3,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
+import 'package:idatt2506_project/view/todo/explosive_confetti_widget.dart';
 import 'package:idatt2506_project/view/todo/todo_item_widget.dart';
 
 class ItemView extends StatefulWidget {
@@ -24,8 +25,7 @@ class _ItemViewState extends State<ItemView> {
   void initState() {
     super.initState();
     listHasBeenFinished = widget.todoList.inProgress.isEmpty;
-    confettiController =
-        ConfettiController(duration: const Duration(seconds: 3));
+    confettiController = ConfettiController(duration: const Duration(seconds: 3));
   }
 
   void updateList() {
@@ -39,31 +39,21 @@ class _ItemViewState extends State<ItemView> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: explosiveConfettiWidget(
+      child: ExplosiveConfettiWidget(
+        confettiController: confettiController,
         child: Column(
           children: [
-            asScrollableList(widget.todoList.inProgress, false),
+            reorderableList(widget.todoList.inProgress, false),
             if (widget.todoList.inProgress.isNotEmpty && widget.todoList.inProgress.isNotEmpty) const Text("Finished"),
-            asScrollableList(widget.todoList.completed, true),
+            reorderableList(widget.todoList.completed, true),
           ],
         ),
       ),
     );
   }
 
-  Widget explosiveConfettiWidget({child}) {
-    return ConfettiWidget(
-        numberOfParticles: 100,
-        maxBlastForce: 50,
-        minBlastForce: 1,
-        gravity: 0,
-        blastDirectionality: BlastDirectionality.explosive,
-        shouldLoop: false,
-        confettiController: confettiController,
-        child: child);
-  }
 
-  ReorderableListView asScrollableList(Iterable<TodoItem> items, isCompleted) {
+  ReorderableListView reorderableList(Iterable<TodoItem> items, isCompleted) {
     return ReorderableListView(
       reverse: true,
       shrinkWrap: true,
@@ -81,12 +71,12 @@ class _ItemViewState extends State<ItemView> {
         child: child,
       ),
       children: [
-        ...getFromCompletedStatus(items, isCompleted),
+        ..._getTodoWidgetsFromCompletedStatus(items, isCompleted),
       ],
     );
   }
 
-  List<TodoItemWidget> getFromCompletedStatus(items, isCompleted) {
+  List<TodoItemWidget> _getTodoWidgetsFromCompletedStatus(items, isCompleted) {
     return [
       for (var listItem in items)
         TodoItemWidget(
@@ -104,3 +94,17 @@ class _ItemViewState extends State<ItemView> {
     ];
   }
 }
+
+
+class ScrollableList extends StatelessWidget {
+  const ScrollableList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+
+
+
