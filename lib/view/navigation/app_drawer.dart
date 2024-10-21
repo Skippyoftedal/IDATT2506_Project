@@ -5,7 +5,7 @@ import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/services/index_service.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/view/navigation/route_widget.dart';
-import 'package:idatt2506_project/view/navigation/routes.dart';
+import 'package:idatt2506_project/services/route_service.dart';
 import 'package:idatt2506_project/model/todo_route.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -82,7 +82,7 @@ class AppDrawerState extends State<AppDrawer> {
   }
 
   List<Widget> constantRoutes() {
-    return RouteManager.topRoutes
+    return RouteService.topRoutes
         .map((route) => RouteWidget(route: route),
 
         )
@@ -107,7 +107,7 @@ class AppDrawerState extends State<AppDrawer> {
   newListRoute() {
     return Container(
         color: Theme.of(context).colorScheme.primary,
-        child: RouteWidget(route: RouteManager.createNew));
+        child: RouteWidget(route: RouteService.createNew));
   }
 
   Future<void> showDeleteAlert(BuildContext context, String listToDelete) async {

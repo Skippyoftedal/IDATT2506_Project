@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:idatt2506_project/services/test_data_service.dart';
-import 'package:idatt2506_project/view/navigation/routes.dart';
+import 'package:idatt2506_project/services/route_service.dart';
 import 'package:idatt2506_project/view/theme/themes.dart';
 
 import 'services/list_service.dart';
@@ -26,7 +26,7 @@ class _TodoAppState extends State<TodoApp> {
       debugShowCheckedModeBanner: false,
       theme: TodoAppTheme.getAppTheme(),
       darkTheme: TodoAppTheme.getAppTheme(dark: true),
-      home: RouteManager.home.component(context),
+      home: RouteService.home.component(context),
     );
   }
 

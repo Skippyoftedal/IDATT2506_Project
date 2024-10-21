@@ -171,4 +171,10 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
       },
     );
   }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
 }
