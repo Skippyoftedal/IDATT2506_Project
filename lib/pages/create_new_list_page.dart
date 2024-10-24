@@ -150,7 +150,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     final title = textController.text;
     String? errorMessage;
     try {
-      InputValidator.validListName(title);
+      InputValidator.validListName(title, context);
       await ListService.createEmptyList(name: title, iconCodePoint: selectedIconCodePoint);
       navigator.push(
         MaterialPageRoute(builder: (_) => ListPage(listName: title)),

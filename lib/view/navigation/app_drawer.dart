@@ -7,6 +7,7 @@ import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/view/navigation/route_widget.dart';
 import 'package:idatt2506_project/services/route_service.dart';
 import 'package:idatt2506_project/model/todo_route.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -24,14 +25,14 @@ class AppDrawerState extends State<AppDrawer> {
     super.initState();
   }
 
-  Future<void >fetchData() async {
+  Future<void> fetchData() async {
     try {
       var lists = await IndexService().indexes;
       setState(() {
         listRoutes = lists
             .map(
-              (it) => TodoRoute(
-                  it.listName, (_) => ListPage(listName: it.listName), it.iconCodePoint),
+              (it) => TodoRoute(it.listName,
+                  (_) => ListPage(listName: it.listName), it.iconCodePoint),
             )
             .toList();
       });
@@ -50,12 +51,13 @@ class AppDrawerState extends State<AppDrawer> {
       child: Column(
         children: [
           drawerHeader(),
-          ...constantRoutes(),
+          //...constantRoutes(),
           Expanded(
             child: ListView(
-                padding: EdgeInsets.zero, children: [...dynamicRoutes().reversed]),
+                padding: EdgeInsets.zero,
+                children: [...dynamicRoutes().reversed]),
           ),
-           newListRoute()
+          newListRoute()
         ],
       ),
     );
@@ -65,40 +67,42 @@ class AppDrawerState extends State<AppDrawer> {
     return Container(
       padding: const EdgeInsets.only(top: 50),
       color: Theme.of(context).colorScheme.primary,
-      child:  Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Todo app",
+            AppLocalizations.of(context)!.appName,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: Theme.of(context).textTheme.headlineLarge?.fontSize
-            ),
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontSize: Theme.of(context).textTheme.headlineLarge?.fontSize),
           )
         ],
       ),
     );
   }
 
-  List<Widget> constantRoutes() {
-    return RouteService.topRoutes
-        .map((route) => RouteWidget(route: route),
-
-        )
-        .toList();
-  }
+  // List<Widget> constantRoutes() {
+  //   return RouteService.topRoutes
+  //       .map((route) => RouteWidget(route: route),
+  //
+  //       )
+  //       .toList();
+  // }
 
   List<Widget> dynamicRoutes() {
     return listRoutes
-        .expand((route) => List.generate(1, (_) => route))//TODO delete before release
+        .expand((route) =>
+            List.generate(1, (_) => route)) //TODO delete before release
         .map(
-          (route) =>
-              RouteWidget(route: route, trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  showDeleteAlert(context, route.prettyName);
-                },),
+          (route) => RouteWidget(
+            route: route,
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                showDeleteAlert(context, route.prettyName);
+              },
+            ),
           ),
         )
         .toList();
@@ -106,20 +110,25 @@ class AppDrawerState extends State<AppDrawer> {
 
   newListRoute() {
     return Container(
-        color: Theme.of(context).colorScheme.primary,
-        child: RouteWidget(route: RouteService.createNew));
+      color: Theme.of(context).colorScheme.primary,
+      child: RouteWidget(
+        route: RouteService.createNew(
+            prettyName: AppLocalizations.of(context)!.createNewListRouteButtonText),
+      ),
+    );
   }
 
-  Future<void> showDeleteAlert(BuildContext context, String listToDelete) async {
+  Future<void> showDeleteAlert(
+      BuildContext context, String listToDelete) async {
     Widget cancel = TextButton(
-      child: const Text("Cancel"),
+      child: Text(AppLocalizations.of(context)!.cancelButtonText),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
 
     Widget confirmDelete = TextButton(
-      child: const Text("Continue"),
+      child: Text(AppLocalizations.of(context)!.continueButtonText),
       onPressed: () async {
         Navigator.of(context).pop();
         await ListService.deleteList(listToDelete);
@@ -128,8 +137,8 @@ class AppDrawerState extends State<AppDrawer> {
     );
 
     AlertDialog alert = AlertDialog(
-      title: const Text("Are you sure?"),
-      content: const Text("The list will be deleted forever!"),
+      title: Text(AppLocalizations.of(context)!.areYouSurePrompt),
+      content: Text(AppLocalizations.of(context)!.listDeletedForeverWarning),
       actions: [
         cancel,
         confirmDelete,
