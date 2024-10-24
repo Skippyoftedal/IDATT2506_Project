@@ -59,7 +59,7 @@ If you do not want the whole IDE, it should also be possible to download it sepe
 
 3. Run the emulator with one of the available emulators from the last step:
 ```
-    emulator @'insert name of your emulator with no quotation marks'
+    emulator @<name of an available emulator>
 ```
 
 4. Launch flutter on all running devices
