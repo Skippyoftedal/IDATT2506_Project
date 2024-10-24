@@ -4,6 +4,7 @@ import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateNewListPage extends StatefulWidget {
   const CreateNewListPage({super.key});
@@ -36,7 +37,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
   @override
   Widget build(BuildContext context) {
     return StandardScaffold(
-      title: "Add a new list",
+      title: AppLocalizations.of(context)!.addNewList,
       body: Container(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
         child: Center(
@@ -57,7 +58,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
                       },
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
-                        hintText: "Give your list a name",
+                        hintText: AppLocalizations.of(context)!.createListInputHint,
                         fillColor: Theme.of(context)
                             .colorScheme
                             .surfaceContainerLowest,
@@ -84,7 +85,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Select a list icon",
+                  AppLocalizations.of(context)!.selectListIcon,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
