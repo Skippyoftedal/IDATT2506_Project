@@ -39,6 +39,8 @@ If you do not want the whole IDE, it should also be possible to download it sepe
 ![image](https://github.com/user-attachments/assets/625bb818-3af1-4af1-ae6e-947ec01e431d)
 
 3. Run the flutter app (main.dart) from the top menu by pressing the green play button
+
+
 ![image](https://github.com/user-attachments/assets/fffe6e83-b0f7-4ca1-9d4e-060bc6f71925)
 
 
