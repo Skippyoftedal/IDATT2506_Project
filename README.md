@@ -19,8 +19,8 @@ Make sure you download flutter for you platform, https://docs.flutter.dev/get-st
 
 Make sure to set the ENV variables for both flutter and android to make the terminal commands below work better
 
-On macOS, your env file should look something like this:
-
+On macOS, your env file should look something like this, depending on where flutter and android is downloaded:
+```
 export FLUTTER_HOME=/Users/Admin/Applications/flutter/flutter
 export PATH="$FLUTTER_HOME/bin:$PATH"
 
@@ -28,7 +28,7 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-
+```
 ### Separate Emulator (Optional)
 If you do not want the whole IDE, it should also be possible to download it seperately by following this toturial: https://medium.com/@yohan.ardiansyah90/how-to-run-android-emulator-for-development-without-android-studio-f0e73682af3a
 
