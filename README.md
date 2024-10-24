@@ -1,31 +1,58 @@
 # idatt2506_project
 
+
+## Description
 Cross-platform solution for the final task of idatt2506 (Applikasjonsutvikling for mobile enheter)
 
 
-How to run on an Android emulator:
 
 
-Prerequisites:
+## Prerequisites
 
-Make sure you have downloaded the android emulator. The easiest way to do this is downloading Android Studio at https://developer.android.com/studio/run/emulator
+### Android
+Android emulator: https://developer.android.com/studio/run/emulator
 
+### Flutter
+Make sure you download flutter for you platform, https://docs.flutter.dev/get-started/install/macos/mobile-android
+
+### Setting ENV variables(Recommended for running in the terminal)
+
+Make sure to set the ENV variables for both flutter and android to make the terminal commands below work better
+
+On macOS, your env file should look something like this:
+
+export FLUTTER_HOME=/Users/Admin/Applications/flutter/flutter
+export PATH="$FLUTTER_HOME/bin:$PATH"
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+### Separate Emulator (Optional)
 If you do not want the whole IDE, it should also be possible to download it seperately by following this toturial: https://medium.com/@yohan.ardiansyah90/how-to-run-android-emulator-for-development-without-android-studio-f0e73682af3a
 
 
-Flutter
-Make sure you download flutter for you platform, https://docs.flutter.dev/get-started/install/macos/mobile-android
-
-Optional, set flutter as an ENV variable to make it easier to run the following commands
 
 
+## Running the application:
 
+1. Clone the project
+```
+    git clone https://github.com/Skippyoftedal/IDATT2506_Project.git
+```
 
-emulator -list-avds
+2. Check available devices:
+```
+    emulator -list-avds
+```
 
-emulator @'insert name of your emulator'
+3. Run the emulator with one of the available emulators from the last step:
+```
+    emulator @'insert name of your emulator with no quotation marks'
+```
 
-
-flutter run
-
-
+4. Launch flutter on all running devices
+```
+    flutter run
+```
