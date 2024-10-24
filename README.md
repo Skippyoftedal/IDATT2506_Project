@@ -62,7 +62,12 @@ If you do not want the whole IDE, it should also be possible to download it sepe
     emulator @<name of an available emulator>
 ```
 
-4. Launch flutter on all running devices
+4. Add English and Norwgian language
+```
+    flutter gen-l10n
+```
+
+5. Launch flutter on all running devices
 ```
     flutter run
 ```
