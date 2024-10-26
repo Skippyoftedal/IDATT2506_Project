@@ -2,9 +2,13 @@ import 'dart:developer';
 
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/exceptions/already_exists_error.dart';
+import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
+import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
+import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
 import'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,7 +35,7 @@ class _ListPageState extends State<ListPage> {
           ? Text(errorMessage)
           : Column(
               children: [
-                if (todoList?.isTotallyEmpty() ?? false)
+                if (todoList?.hasNoItems() ?? false)
                   Container(
                       color: Theme.of(context)
                           .colorScheme
@@ -67,7 +71,7 @@ class _ListPageState extends State<ListPage> {
                               icon: Icon(Icons.send,
                                   color: Theme.of(context).colorScheme.primary),
                             ),
-                            hintText: "Add a new item to the list"),
+                            hintText: AppLocalizations.of(context)!.addNewItemToList),
                       ),
                     ),
                   ],
@@ -95,10 +99,27 @@ class _ListPageState extends State<ListPage> {
   }
 
   void addTodoListItem(String text) {
+    String? errorMessage;
     setState(() {
-      todoList?.addTodoItem(item: TodoItem(text), isCompleted: false);
+      try {
+        todoList?.addTodoItem(item: TodoItem(text), isCompleted: false);
+        updateList();
+      } on AlreadyExistsError catch (e){
+        errorMessage = AppLocalizations.of(context)?.itemAlreadyExits(e.toString());
+      } on OnlyWhitespaceError catch (_){
+        errorMessage = AppLocalizations.of(context)?.whitespaceItemError;
+      } on EmptyInputError catch (_){
+        errorMessage = AppLocalizations.of(context)?.emptyItemError;
+      } catch (e){
+        errorMessage = e.toString();
+        log(e.toString());
+      }
     });
-    updateList();
+
+    if (errorMessage != null) {
+      CriticalError(errorMessage: errorMessage!).show(context);
+    }
+
   }
 
   void updateList() {

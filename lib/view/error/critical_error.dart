@@ -2,8 +2,16 @@
 
 import 'package:flutter/material.dart';
 
-class CriticalError extends StatelessWidget {
 
+class CriticalError extends StatelessWidget {
+  show(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return this;
+      },
+    );
+  }
 
   final String errorMessage;
   final String? errorDescription;

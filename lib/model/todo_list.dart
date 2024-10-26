@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:idatt2506_project/exceptions/already_exists_error.dart';
 import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
 import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
@@ -16,7 +17,6 @@ class TodoList {
       required this.completed,
       required this.inProgress,
       this.iconCodePoint}) {
-
     if (name.isEmpty) {
       throw EmptyInputError("An empty list name was provided");
     }
@@ -53,11 +53,24 @@ class TodoList {
     return {"completed": completed, "inProgress": inProgress};
   }
 
-  bool isTotallyEmpty() {
+  bool hasItemInProgress(TodoItem item) {
+    try {
+      inProgress.firstWhere((it) => it.item == item.item);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool hasNoItems() {
     return completed.isEmpty && inProgress.isEmpty;
   }
 
   void addTodoItem({required TodoItem item, isCompleted = false}) {
+    if (hasItemInProgress(item)) {
+      throw AlreadyExistsError(item.item);
+    }
+
     var list = isCompleted ? completed : inProgress;
     list.add(item);
   }

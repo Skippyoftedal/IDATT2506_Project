@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/exceptions/already_exists_error.dart';
 import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
 import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
-import 'package:idatt2506_project/services/input_validator.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateNewListPage extends StatefulWidget {
   const CreateNewListPage({super.key});
@@ -162,25 +161,20 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
       );
     } on EmptyInputError catch (_) {
       errorMessage = appLocalizations!.emptyTitleError;
-    } on OnlyWhitespaceError catch (_){
+    } on OnlyWhitespaceError catch (_) {
       errorMessage = appLocalizations!.whitespaceTitleError;
+    } on AlreadyExistsError catch (e){
+      errorMessage = appLocalizations!.itemAlreadyExits(e.toString());
     } catch (e) {
       errorMessage = e.toString();
     }
 
     if (errorMessage != null) {
-      showError(errorMessage);
+      CriticalError(errorMessage: errorMessage).show(context);
     }
   }
 
-  void showError(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CriticalError(errorMessage: message);
-      },
-    );
-  }
+
 
   @override
   void dispose() {

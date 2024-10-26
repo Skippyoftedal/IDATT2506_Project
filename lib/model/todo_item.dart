@@ -1,9 +1,20 @@
 import 'dart:developer';
 
+import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
+
+import '../exceptions/empty_input_exception.dart';
+
 class TodoItem {
   String item;
 
-  TodoItem(this.item);
+  TodoItem(this.item){
+    if (item.isEmpty){
+      throw EmptyInputError("Todo item name cannot be empty");
+    }
+    if (item.trim().isEmpty){
+      throw OnlyWhitespaceError("Todo item name cannot consist of only whitespace");
+    }
+  }
 
   factory TodoItem.fromJson(Map<String, dynamic> json) {
     try {

@@ -64,6 +64,8 @@ class ListService {
       if (list.iconCodePoint == null) {
         throw StateError("Cannot save a list with no codepoint");
       }
+      await IndexService().checkNameIsAvailable(list.name);
+
 
       final filename = const Uuid().v4();
       log("Saving list with name ${list.name} and codepoint ${list.iconCodePoint} as $filename");
