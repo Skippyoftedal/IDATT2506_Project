@@ -14,7 +14,8 @@ void main() {
       "files": [
         {
           "listName": "test",
-          "fileName": "test.json"
+          "fileName": "test.json",
+          "iconCodePoint":null
         }
       ]
     }
