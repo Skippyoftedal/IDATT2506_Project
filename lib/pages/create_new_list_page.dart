@@ -102,17 +102,20 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
   Widget iconSelector() {
 
     return Expanded(
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 100,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 100,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: available.length,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return iconSelectorButton(available[index].codePoint);
+          },
         ),
-        itemCount: available.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return iconSelectorButton(available[index].codePoint);
-        },
       ),
     );
   }
