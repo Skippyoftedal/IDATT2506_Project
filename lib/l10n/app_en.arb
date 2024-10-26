@@ -9,5 +9,6 @@
   "listDeletedForeverWarning": "The list will be deleted forever!",
   "whitespaceTitleError": "The name cannot consist of only white-space",
   "emptyTitleError": "The name of the list cannot be empty",
-  "createNewListRouteButtonText": "Create new list"
+  "createNewListRouteButtonText": "Create new list",
+  "emptyListMessageHint": "Listen er tom! Legg til noen ting ved hjelp av tekstboksen 😉"
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
+import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
 import 'package:idatt2506_project/services/input_validator.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateNewListPage extends StatefulWidget {
   const CreateNewListPage({super.key});
@@ -146,15 +149,21 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
   }
 
   void createListAndPush() async {
+    AppLocalizations? appLocalizations = AppLocalizations.of(context);
+
     final NavigatorState navigator = Navigator.of(context);
     final title = textController.text;
     String? errorMessage;
     try {
-      InputValidator.validListName(title, context);
-      await ListService.createEmptyList(name: title, iconCodePoint: selectedIconCodePoint);
+      await ListService.createEmptyList(
+          name: title, iconCodePoint: selectedIconCodePoint);
       navigator.push(
         MaterialPageRoute(builder: (_) => ListPage(listName: title)),
       );
+    } on EmptyInputError catch (_) {
+      errorMessage = appLocalizations!.emptyTitleError;
+    } on OnlyWhitespaceError catch (_){
+      errorMessage = appLocalizations!.whitespaceTitleError;
     } catch (e) {
       errorMessage = e.toString();
     }

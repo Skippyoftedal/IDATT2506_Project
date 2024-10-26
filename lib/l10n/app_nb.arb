@@ -7,7 +7,8 @@
   "continueButtonText": "Fortsett",
   "areYouSurePrompt": "Er du sikker?",
   "listDeletedForeverWarning": "Listen vil slettes for alltid!",
-  "whitespaceTitleError": "Navne kan ikke bestå av bare usynlige karakterer",
+  "whitespaceTitleError": "Navnet kan ikke bestå av bare usynlige karakterer",
   "emptyTitleError": "Navnet på listen kan ikke være tomt",
-  "createNewListRouteButtonText": "Opprett en ny liste"
+  "createNewListRouteButtonText": "Opprett en ny liste",
+  "emptyListMessageHint": "The list is empty! Add some items by typing in the textbox 😉"
 }

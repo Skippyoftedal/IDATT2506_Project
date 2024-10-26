@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
+import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 
 class TodoList {
@@ -8,7 +10,21 @@ class TodoList {
   List<TodoItem> completed;
   List<TodoItem> inProgress;
   int? iconCodePoint;
-  TodoList({required this.name, required this.completed, required this.inProgress, this.iconCodePoint});
+
+  TodoList(
+      {required this.name,
+      required this.completed,
+      required this.inProgress,
+      this.iconCodePoint}) {
+
+    if (name.isEmpty) {
+      throw EmptyInputError("An empty list name was provided");
+    }
+    if (name.trim().isEmpty) {
+      throw OnlyWhitespaceError(
+          "A list name with only whitespace was provided");
+    }
+  }
 
   factory TodoList.fromJson(Map<String, dynamic> json) {
     var completedJson = (json["completed"] as List)
@@ -18,7 +34,10 @@ class TodoList {
         .map((item) => TodoItem.fromJson(item))
         .toList();
 
-    return TodoList(name: "Name has not been updated", completed: completedJson, inProgress: inProgressJson);
+    return TodoList(
+        name: "Name has not been updated",
+        completed: completedJson,
+        inProgress: inProgressJson);
   }
 
   factory TodoList.fromJsonString(String json) {

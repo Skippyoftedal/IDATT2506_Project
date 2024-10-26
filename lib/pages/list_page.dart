@@ -7,6 +7,7 @@ import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
+import'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListPage extends StatefulWidget {
   final String listName;
@@ -78,7 +79,7 @@ class _ListPageState extends State<ListPage> {
 
   Widget listIsEmptyMessage() {
     return BubbleSpecialThree(
-      text: "The list is empty! Add some items by typing in the textbox 😉",
+      text: AppLocalizations.of(context)!.emptyListMessageHint,
       color: Theme.of(context).colorScheme.tertiary,
       textStyle: TextStyle(
           color: Theme.of(context).colorScheme.onTertiary, fontSize: 18),
