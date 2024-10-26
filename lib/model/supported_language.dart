@@ -14,11 +14,8 @@ enum SupportedLanguage {
 
 
   static SupportedLanguage getNext(SupportedLanguage currentLanguage){
-    if (currentLanguage == SupportedLanguage.norwegian){
-      return SupportedLanguage.english;
-    } else {
-      return SupportedLanguage.norwegian;
-    }
+    int index = SupportedLanguage.values.indexOf(currentLanguage);
+    return SupportedLanguage.values[(index + 1) % SupportedLanguage.values.length];
   }
 
   static SupportedLanguage getFromLanguageCode(String languageCode) {
