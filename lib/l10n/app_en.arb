@@ -14,7 +14,6 @@
   "createNewListRouteButtonText": "Create new list",
   "emptyListMessageHint": "Listen er tom! Legg til noen ting ved hjelp av tekstboksen 😉",
   "addNewItemToList": "Add a new item to the list",
-  "errors": {
     "itemAlreadyExits": "'{item}' already exists",
     "@itemAlreadyExists": {
       "placeholders": {
@@ -23,8 +22,9 @@
           "format": "compact"
         }
       }
-    }
-  }
+    },
+
+  "finished": "Finished"
 
 
 }

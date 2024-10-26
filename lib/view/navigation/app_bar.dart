@@ -13,7 +13,7 @@ class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    SupportedLanguage language =SupportedLanguage.getFromLanguageCode( AppLocalizations.of(context)!.localeName);
+    SupportedLanguage language = SupportedLanguage.getFromLanguageCode( AppLocalizations.of(context)!.localeName);
 
     return AppBar(
       centerTitle: true,
@@ -32,15 +32,9 @@ class TodoAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 50,
           child: IconButton(
             onPressed: () {
-
-
-
               final nextLanguage = SupportedLanguage.getNext(language);
-
               log("Swapping language from $language to $nextLanguage");
-
               language = nextLanguage;
-
               LanguageService().setLocale(language);
             },
             icon: Flag.fromCode(

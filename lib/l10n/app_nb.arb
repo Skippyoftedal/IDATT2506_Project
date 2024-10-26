@@ -11,21 +11,17 @@
   "emptyTitleError": "Navnet på listen kan ikke være tomt",
   "whitespaceItemError": "Du kan ikke legge en ting som består av bare tomrom",
   "emptyItemError": "Du kan ikke legge en ting uten tittel",
-
   "createNewListRouteButtonText": "Opprett en ny liste",
   "emptyListMessageHint": "The list is empty! Add some items by typing in the textbox 😉",
   "addNewItemToList": "Legg til noe i lista",
-
-  "errors": {
-    "itemAlreadyExits": "'{item}' eksisterer allerede",
-    "@itemAlreadyExists": {
-      "placeholders": {
-        "item": {
-          "type": "string",
-          "format": "compact"
-        }
+  "itemAlreadyExits": "'{item}' eksisterer allerede",
+  "@itemAlreadyExists": {
+    "placeholders": {
+      "item": {
+        "type": "string",
+        "format": "compact"
       }
     }
-  }
-
+  },
+  "finished": "Fullført"
 }

@@ -5,6 +5,7 @@ import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/view/todo/explosive_confetti_widget.dart';
 import 'package:idatt2506_project/view/todo/todo_item_widget.dart';
+import'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ItemView extends StatefulWidget {
   const ItemView(
@@ -44,7 +45,8 @@ class _ItemViewState extends State<ItemView> {
         child: Column(
           children: [
             reorderableList(widget.todoList.inProgress, false),
-            if (widget.todoList.inProgress.isNotEmpty && widget.todoList.inProgress.isNotEmpty) const Text("Finished"),
+            if (widget.todoList.inProgress.isNotEmpty && widget.todoList.inProgress.isNotEmpty)
+              Text(AppLocalizations.of(context)!.finished),
             reorderableList(widget.todoList.completed, true),
           ],
         ),

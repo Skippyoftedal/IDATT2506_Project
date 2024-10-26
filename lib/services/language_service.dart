@@ -44,7 +44,7 @@ class LanguageService extends ChangeNotifier {
     notifyListeners();
   }
 
-  get _locales {
+  Iterable<Locale> get supportedLocales {
     return SupportedLanguage.values.map((it) => Locale(it.languageCode));
   }
 
@@ -55,15 +55,11 @@ class LanguageService extends ChangeNotifier {
     GlobalCupertinoLocalizations.delegate,
   ];
 
-  get supportedLocales {
-    return _locales;
-  }
-
-  get localizationsDelegates {
+  List<LocalizationsDelegate<Object>> get localizationsDelegates {
     return _localizationsDelegates;
   }
 
-  get locale {
+  Locale get locale {
     return _locale;
   }
 }
