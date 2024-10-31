@@ -1,12 +1,19 @@
 import 'dart:developer';
 
+import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
 import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
+import 'package:idatt2506_project/model/todo_list.dart';
 
-import '../exceptions/empty_input_exception.dart';
 
+
+/// Item in a [TodoList]
 class TodoItem {
   String item;
 
+  /// Creates a [TodoItem]
+  ///
+  /// Throws an [EmptyInputError] if [item] is empty.
+  /// Throws an [OnlyWhitespaceError] if [item] has only whitespace.
   TodoItem(this.item){
     if (item.isEmpty){
       throw EmptyInputError("Todo item name cannot be empty");

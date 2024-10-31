@@ -2,6 +2,11 @@ import 'dart:developer';
 
 import 'index_file_item.dart';
 
+/// Json model for the index file
+///
+/// The index file contains info about the different lists stored in the system.
+/// This avoids fetching and parsing all the lists in the directory to retrieve
+/// metadata such as the file names and icons.
 class IndexFile {
   final List<IndexItem> files;
 
@@ -29,5 +34,3 @@ class IndexFile {
     return "{${files.map((item) => "${item.listName} : ${item.fileName}").join(", ")}}";
   }
 }
-
-
