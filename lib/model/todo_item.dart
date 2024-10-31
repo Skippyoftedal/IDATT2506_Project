@@ -34,4 +34,16 @@ class TodoItem {
   String toString() {
     return item;
   }
+
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TodoItem &&
+          runtimeType == other.runtimeType &&
+          item == other.item;
+
+  @override
+  int get hashCode => item.hashCode;
+
 }
