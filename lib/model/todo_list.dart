@@ -10,13 +10,13 @@ class TodoList {
   String name;
   List<TodoItem> completed;
   List<TodoItem> inProgress;
-  int? iconCodePoint;
+  int iconCodePoint;
 
   TodoList(
       {required this.name,
       required this.completed,
       required this.inProgress,
-      this.iconCodePoint}) {
+      required this.iconCodePoint}) {
     if (name.isEmpty) {
       throw EmptyInputError("An empty list name was provided");
     }
@@ -37,7 +37,8 @@ class TodoList {
     return TodoList(
         name: "Name has not been updated",
         completed: completedJson,
-        inProgress: inProgressJson);
+        inProgress: inProgressJson,
+        iconCodePoint: json["iconCodePoint"]);
   }
 
   factory TodoList.fromJsonString(String json) {
@@ -50,7 +51,7 @@ class TodoList {
   }
 
   Map<String, dynamic> toJson() {
-    return {"completed": completed, "inProgress": inProgress};
+    return {"completed": completed, "inProgress": inProgress, "iconCodePoint": iconCodePoint};
   }
 
   bool hasItemInProgress(TodoItem item) {
