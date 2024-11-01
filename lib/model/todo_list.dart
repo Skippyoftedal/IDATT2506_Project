@@ -87,6 +87,12 @@ class TodoList {
     return completed.isEmpty && inProgress.isEmpty;
   }
 
+  ///Removes
+  void deleteIdentical(TodoItem newItem, bool isCompleted) {
+    var deleteFrom = isCompleted ? completed : inProgress;
+    deleteFrom.removeWhere((it) => it.item == newItem.item);
+  }
+
   /// Add an item to the list
   /// Throws an [AlreadyExistsError] if the item already exists in the
   /// [inProgress] list.
@@ -104,11 +110,15 @@ class TodoList {
 
   /// Changes the completed status of an item, moving it from [completed]
   /// to [inProgress] or vice versa, depending on the current state.
-  void changeCompletedStatus(TodoItem item, isIsCompletedCurrently) {
-    var listFrom = isIsCompletedCurrently ? completed : inProgress;
-    var listTo = isIsCompletedCurrently ? inProgress : completed;
-    listFrom.remove(item);
+  void changeCompletedStatus(TodoItem item, isCompleted) {
+    var listFrom = isCompleted ? completed : inProgress;
+    var listTo = isCompleted ? inProgress : completed;
+
+    if (!isCompleted){
+      deleteIdentical(item, true);
+    }
     listTo.add(item);
+    listFrom.remove(item);
   }
 
   /// Used in the [ReorderableListView] class to reorder the items on drag

@@ -78,11 +78,11 @@ class _ItemViewState extends State<ItemView> {
     );
   }
 
-  List<TodoItemWidget> _getTodoWidgetsFromCompletedStatus(items, isCompleted) {
+  List<TodoItemWidget> _getTodoWidgetsFromCompletedStatus(Iterable<TodoItem> items, bool isCompleted) {
     return [
       for (var listItem in items)
         TodoItemWidget(
-          key: ValueKey(listItem),
+          key: ValueKey(listItem.item + isCompleted.toString()),
           todoItem: listItem,
           isCompleted: isCompleted,
           onClick: () {

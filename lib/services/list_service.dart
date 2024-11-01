@@ -29,7 +29,7 @@ class ListService {
   static Future<TodoList> getList(String listName, {simulateDelay = false}) async {
 
     if (simulateDelay){
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 3));
     }
 
     final IndexItem indexItem = await IndexService().getIndex(listName);

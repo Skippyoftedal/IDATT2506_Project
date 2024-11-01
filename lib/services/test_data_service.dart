@@ -9,7 +9,7 @@ class TestDataService{
     final testDataIcons = [Icons.list.codePoint, Icons.list.codePoint, Icons.list.codePoint];
 
     for (int i = 0; i <testDataNames.length; i++) {
-      final String fileContent = await rootBundle.loadString("assets/testdata/${testDataNames[i]}");
+      final String fileContent = await rootBundle.loadString("assets/testdata/${testDataNames[i]}.json");
       final TodoList list = TodoList.fromJsonString(fileContent);
       list.name = testDataNames[i];
       list.iconCodePoint = testDataIcons[i];

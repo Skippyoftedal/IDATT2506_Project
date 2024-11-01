@@ -11,7 +11,7 @@ import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
-import'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListPage extends StatefulWidget {
   final String listName;
@@ -32,15 +32,21 @@ class _ListPageState extends State<ListPage> {
     return StandardScaffold(
       title: todoList?.name,
       body: todoList == null
-          ? Text(errorMessage)
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [CircularProgressIndicator()],
+              ),
+            )
           : Column(
               children: [
                 if (todoList?.hasNoItems() ?? false)
                   Container(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .surfaceContainerHighest,
-                      child: listIsEmptyMessage()),
+                    color:
+                        Theme.of(context).colorScheme.surfaceContainerHighest,
+                    child: listIsEmptyMessage(),
+                  ),
                 if (todoList != null)
                   Expanded(
                     child: Container(
@@ -71,7 +77,8 @@ class _ListPageState extends State<ListPage> {
                               icon: Icon(Icons.send,
                                   color: Theme.of(context).colorScheme.primary),
                             ),
-                            hintText: AppLocalizations.of(context)!.addNewItemToList),
+                            hintText:
+                                AppLocalizations.of(context)!.addNewItemToList),
                       ),
                     ),
                   ],
@@ -92,10 +99,13 @@ class _ListPageState extends State<ListPage> {
 
   OutlineInputBorder getBorder() {
     return OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary, width: 2.0),
-        borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10), topRight: Radius.circular(10)));
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
+    );
   }
 
   void addTodoListItem(String text) {
@@ -104,13 +114,14 @@ class _ListPageState extends State<ListPage> {
       try {
         todoList?.addTodoItem(item: TodoItem(text), isCompleted: false);
         updateList();
-      } on AlreadyExistsError catch (e){
-        errorMessage = AppLocalizations.of(context)?.itemAlreadyExits(e.toString());
-      } on OnlyWhitespaceError catch (_){
+      } on AlreadyExistsError catch (e) {
+        errorMessage =
+            AppLocalizations.of(context)?.itemAlreadyExits(e.toString());
+      } on OnlyWhitespaceError catch (_) {
         errorMessage = AppLocalizations.of(context)?.whitespaceItemError;
-      } on EmptyInputError catch (_){
+      } on EmptyInputError catch (_) {
         errorMessage = AppLocalizations.of(context)?.emptyItemError;
-      } catch (e){
+      } catch (e) {
         errorMessage = e.toString();
         log(e.toString());
       }
@@ -119,32 +130,20 @@ class _ListPageState extends State<ListPage> {
     if (errorMessage != null) {
       CriticalError(errorMessage: errorMessage!).show(context);
     }
-
   }
 
   void updateList() {
     log("Updating list");
     if (todoList != null) {
-      ListService.updateList( todoList!);
+      ListService.updateList(todoList!);
     }
   }
 
   void fetchList() async {
     try {
-      //TODO delete before submission, is
-      //TODO not necessary when the lists already exist
       TodoList? fetched;
-      for (var i = 0; i < 10; i++) {
-        try {
-          await Future.delayed(const Duration(milliseconds: 100));
-          fetched = await ListService.getList(widget.listName);
-          break;
-        } catch (e) {
-          if (i == 9) {
-            rethrow;
-          }
-        }
-      }
+      fetched = await ListService.getList(widget.listName, simulateDelay: true);
+
       log("fetched list $fetched");
       setState(() {
         todoList = fetched;
