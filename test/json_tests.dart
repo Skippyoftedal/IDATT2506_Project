@@ -22,7 +22,7 @@ void main() {
     ''';
 
     IndexFile expected =
-    IndexFile(files: [IndexItem(listName: "test", fileName: "test.json")]);
+    IndexFile(files: [IndexItem(listName: "test", fileName: "test.json", iconCodePoint: 2)]);
 
     IndexFile actual = IndexFile.fromJson(jsonDecode(fileContent));
 
@@ -46,7 +46,7 @@ void main() {
     TodoItem item1 = TodoItem("milk");
     TodoItem item2 = TodoItem("bread");
 
-    TodoList expected = TodoList(name: "This name is not checked", completed: [item1], inProgress: [item2]);
+    TodoList expected = TodoList(name: "This name is not checked", completed: [item1], inProgress: [item2], iconCodePoint: 2);
 
     TodoList actual = TodoList.fromJsonString(fileContent);
 
