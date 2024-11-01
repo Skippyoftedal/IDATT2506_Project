@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:idatt2506_project/exceptions/already_exists_error.dart';
 import 'package:idatt2506_project/model/index_file_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/services/index_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
+/// Used for working on the stored lists
 class ListService {
 
   static const listDirectoryPath = "lists";
+
   static Future<void> deleteAllLists() async {
     log("WARNING: Removing all lists!");
     final directory = Directory(await localPath);
@@ -20,7 +23,15 @@ class ListService {
     await IndexService().clearIndexes();
   }
 
-  static Future<TodoList> getList(String listName) async {
+  /// Gets the list that has the given [listName]
+  ///
+  /// If the list does not exist, or cannot be opened, a [StateError] is thrown.
+  static Future<TodoList> getList(String listName, {simulateDelay = false}) async {
+
+    if (simulateDelay){
+      await Future.delayed(Duration(seconds: 5));
+    }
+
     final IndexItem indexItem = await IndexService().getIndex(listName);
     final String fileName = indexItem.fileName;
     final String path = "${await localPath}/$fileName";
@@ -40,11 +51,9 @@ class ListService {
     }
   }
 
+  /// Overwrites the current json version of the list in the filesystem
   static Future<void> updateList(TodoList list) async {
     try {
-      if (list.iconCodePoint == null) {
-        throw StateError("Cannot save a list with no codepoint");
-      }
 
       final String filename =
           (await IndexService().getIndex(list.name)).fileName;
@@ -59,13 +68,13 @@ class ListService {
     }
   }
 
+  /// Saves a list with a new uuid name
+  ///
+  /// An [AlreadyExistsError] will be thrown if the name is already in use
   static Future<void> _saveNewList(TodoList list) async {
     try {
-      if (list.iconCodePoint == null) {
-        throw StateError("Cannot save a list with no codepoint");
-      }
-      await IndexService().checkNameIsAvailable(list.name);
 
+      await IndexService().checkNameIsAvailable(list.name);
 
       final filename = const Uuid().v4();
       log("Saving list with name ${list.name} and codepoint ${list.iconCodePoint} as $filename");
@@ -89,6 +98,7 @@ class ListService {
     }
   }
 
+  /// Delete a list with a given name
   static Future<void> deleteList(String listName) async {
     File file =
         File("${await localPath}/${await IndexService().getIndex(listName)}");
@@ -98,11 +108,13 @@ class ListService {
     await IndexService().removeList(listName);
   }
 
+  /// The path of the directory where the lists are stored
   static Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return "${directory.path}/$listDirectoryPath";
   }
 
+  /// Create and save an empty list
   static Future<void> createEmptyList(
       {required String name, required int iconCodePoint}) async {
     await _saveNewList(

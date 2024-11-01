@@ -7,6 +7,13 @@ import 'package:idatt2506_project/model/index_file_item.dart';
 import 'package:idatt2506_project/model/index_file.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// Singleton class for managing the [IndexFile]
+///
+/// Note: to reduce the overhead of getting parsing the [IndexFile] too
+/// many times, this class stores the [IndexItem] in memory after loading
+/// them for the first time. Should a file be added without the usage of
+/// this class (seen as an error), the link in the drawer
+/// wont be available until an app restart.
 class IndexService {
   static final IndexService _singleton = IndexService._internal();
   static final List<IndexItem> _indexes = List.empty(growable: true);
@@ -19,7 +26,7 @@ class IndexService {
 
   bool isFetched = false;
 
-
+  /// Tries to fetch indexes, if they are already fetched, nothing happens
   Future<void> updateIndexes() async {
     if (!isFetched) {
       isFetched = true;
@@ -27,6 +34,7 @@ class IndexService {
     }
   }
 
+  /// Fetches indexes from json index file, and adds them to [_indexes]
   Future<void> _fetchIndexesFromFile() async {
     log("Fetching indexes");
     IndexFile parsed =
@@ -42,6 +50,7 @@ class IndexService {
     return _indexes;
   }
 
+  /// Add an index to both [_indexes] and the stored index file
   Future<void> addIndex(IndexItem index) async {
     await updateIndexes();
 
@@ -50,6 +59,9 @@ class IndexService {
     await writeIndexes();
   }
 
+  /// Returns the [IndexItem] that has the given [listName]
+  ///
+  /// A [StateError] is thrown if the [IndexItem] does not exist
   Future<IndexItem> getIndex(String listName) async {
     await updateIndexes();
 
@@ -57,7 +69,7 @@ class IndexService {
     return _indexes.firstWhere((it) => it.listName == listName);
   }
 
-
+  /// Throws an [AlreadyExistsError] if the item already exists
   Future<void> checkNameIsAvailable(String listName) async {
     await updateIndexes();
 
@@ -66,11 +78,13 @@ class IndexService {
     }
   }
 
+  /// Clears indexes and deletes the index file
   Future<void> clearIndexes() async {
     _indexes.clear();
     (await _indexFile).delete();
   }
 
+  /// Get the index file [File] from application storage
   Future<File> get _indexFile async {
     Directory directory = await getApplicationDocumentsDirectory();
     File file = File("${directory.path}/$_indexPath");
@@ -82,6 +96,7 @@ class IndexService {
     }
     return file;
   }
+
 
   Future<void> removeList(String listName) async {
     _indexes.removeWhere((it) => it.listName == listName);

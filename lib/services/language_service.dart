@@ -1,30 +1,36 @@
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:idatt2506_project/model/supported_language.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-/// Based partly on code from https://flutterjunction.com/how-to-change-app-language-in-flutter
+/// Handles the storage and changing of language in the app
+///
+/// Note: based partly on code from https://flutterjunction.com/how-to-change-app-language-in-flutter
 class LanguageService extends ChangeNotifier {
-
-  static const languagePreferenceKey = "locale";
+  /// Key used to store the language preference
+  static const _languagePreferenceKey = "locale";
 
   static final LanguageService _singleton = LanguageService._internal();
-  LanguageService._internal();
 
+  /// The default starting locale
+  static final Locale _defaultLocale =
+      Locale(SupportedLanguage.norwegian.languageCode);
+
+  /// Returns the singleton instance of the language service
   factory LanguageService() {
     return _singleton;
   }
 
-  static final Locale _defaultLocale = Locale(SupportedLanguage.norwegian.languageCode);
+  LanguageService._internal();
+
   Locale _locale = _defaultLocale;
 
+  /// Gets the current local, and updates the listener in main
   Future<void> fetchLocale() async {
     var preferences = await SharedPreferences.getInstance();
-    String? storedLocale = preferences.getString(languagePreferenceKey);
+    String? storedLocale = preferences.getString(_languagePreferenceKey);
     if (storedLocale == null) {
       _locale = _defaultLocale;
     } else {
@@ -33,17 +39,19 @@ class LanguageService extends ChangeNotifier {
     }
   }
 
+  /// Sets the current local, and updates the listener in main
   void setLocale(SupportedLanguage language) async {
     var preferences = await SharedPreferences.getInstance();
     if (_locale.languageCode == language.languageCode) {
       return;
     }
     _locale = Locale(language.languageCode);
-    await preferences.setString(languagePreferenceKey, language.languageCode);
+    await preferences.setString(_languagePreferenceKey, language.languageCode);
 
     notifyListeners();
   }
 
+  /// Gets all supported languages as an iterable of [Locale]
   Iterable<Locale> get supportedLocales {
     return SupportedLanguage.values.map((it) => Locale(it.languageCode));
   }
@@ -63,4 +71,3 @@ class LanguageService extends ChangeNotifier {
     return _locale;
   }
 }
-
