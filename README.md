@@ -4,7 +4,10 @@
 ## Description
 Cross-platform solution for the final task of idatt2506 (Applikasjonsutvikling for mobile enheter)
 
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/40fa3ed1-8fa5-4c3f-9547-2011e05aea13" alt="Image 1" width="200"/>
+  <img src="https://github.com/user-attachments/assets/4a1e1314-2b22-4522-bae7-6ea2c8bd9041" alt="Image 2" width="200"/>
+</p>
 
 
 ## Prerequisites
