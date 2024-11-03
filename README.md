@@ -16,7 +16,7 @@ Cross-platform solution for the final task of idatt2506 (Applikasjonsutvikling f
 Android emulator: https://developer.android.com/studio/run/emulator
 
 ### Flutter
-Make sure you download flutter for you platform, https://docs.flutter.dev/get-started/install/macos/mobile-android
+Make sure you download flutter for you platform (dart should come package with flutter), https://docs.flutter.dev/get-started/install/macos/mobile-android
 
 ### Setting ENV variables(Recommended for running in the terminal)
 
@@ -40,8 +40,13 @@ If you do not want the whole IDE, it should also be possible to download it sepe
 1. Download the flutter plugin: https://plugins.jetbrains.com/plugin/9212-flutter
 2. Start a device from the device manager located on the right side of the application
 ![image](https://github.com/user-attachments/assets/625bb818-3af1-4af1-ae6e-947ec01e431d)
+3. Add languages
 
-3. Run the flutter app (main.dart) from the top menu by pressing the green play button
+```
+    flutter gen-l10n
+```
+
+5. Run the flutter app (main.dart) from the top menu by pressing the green play button
 
 
 ![image](https://github.com/user-attachments/assets/fffe6e83-b0f7-4ca1-9d4e-060bc6f71925)
