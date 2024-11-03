@@ -1,10 +1,10 @@
 {
   "addNewList": "Ny liste",
-  "selectListIcon": "Velg et ikon for lista",
-  "createListInputHint": "Gi lista et navn",
+  "selectListIcon": "Velg et ikon for listen",
+  "createListInputHint": "Gi listen et navn",
   "appName": "Todo app",
   "cancelButtonText": "Avbryt",
-  "continueButtonText": "Fortsett",
+  "confirmDelete": "Slett listen",
   "areYouSurePrompt": "Er du sikker?",
   "listDeletedForeverWarning": "Listen vil slettes for alltid!",
   "whitespaceTitleError": "Navnet kan ikke bestå av bare usynlige karakterer",
@@ -12,7 +12,7 @@
   "whitespaceItemError": "Du kan ikke legge en ting som består av bare tomrom",
   "emptyItemError": "Du kan ikke legge en ting uten tittel",
   "createNewListRouteButtonText": "Opprett en ny liste",
-  "emptyListMessageHint": "The list is empty! Add some items by typing in the textbox 😉",
+  "emptyListMessageHint": "Listen er tom! Legg til noen ting ved hjelp av tekstboksen 😉",
   "addNewItemToList": "Legg til noe i lista",
   "itemAlreadyExits": "'{item}' eksisterer allerede",
   "@itemAlreadyExists": {
