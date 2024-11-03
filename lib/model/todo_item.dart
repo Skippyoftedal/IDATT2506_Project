@@ -25,7 +25,7 @@ class TodoItem {
 
   factory TodoItem.fromJson(Map<String, dynamic> json) {
     try {
-      return TodoItem(json["item"]);
+      return TodoItem(json["item"] as String);
     } catch (e) {
 
       log("json parsing error for todoItem :$e");

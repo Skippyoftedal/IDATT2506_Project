@@ -42,22 +42,22 @@ class TodoList {
 
   factory TodoList.fromJson(Map<String, dynamic> json) {
     var completedJson = (json["completed"] as List)
-        .map((item) => TodoItem.fromJson(item))
+        .map((item) => TodoItem.fromJson(item as Map<String, dynamic>))
         .toList();
     var inProgressJson = (json["inProgress"] as List)
-        .map((item) => TodoItem.fromJson(item))
+        .map((item) => TodoItem.fromJson(item as Map<String, dynamic>))
         .toList();
 
     return TodoList(
         name: "Name has not been updated",
         completed: completedJson,
         inProgress: inProgressJson,
-        iconCodePoint: json["iconCodePoint"]);
+        iconCodePoint: json["iconCodePoint"] as int);
   }
 
   factory TodoList.fromJsonString(String json) {
     try {
-      return TodoList.fromJson(jsonDecode(json));
+      return TodoList.fromJson(jsonDecode(json) as Map<String, dynamic>);
     } catch (e) {
       log("json parsing error for todolist: $e");
       throw StateError("Cannot parse $json");
@@ -99,7 +99,7 @@ class TodoList {
   ///
   /// NOTE: no error is thrown if the list has an identical
   /// entry in the [completed] list
-  void addTodoItem({required TodoItem item, isCompleted = false}) {
+  void addTodoItem({required TodoItem item, bool isCompleted = false}) {
     if (hasItemInProgress(item)) {
       throw AlreadyExistsError(item.item);
     }
@@ -110,7 +110,7 @@ class TodoList {
 
   /// Changes the completed status of an item, moving it from [completed]
   /// to [inProgress] or vice versa, depending on the current state.
-  void changeCompletedStatus(TodoItem item, isCompleted) {
+  void changeCompletedStatus(TodoItem item, bool isCompleted) {
     var listFrom = isCompleted ? completed : inProgress;
     var listTo = isCompleted ? inProgress : completed;
 
@@ -122,7 +122,7 @@ class TodoList {
   }
 
   /// Used in the [ReorderableListView] class to reorder the items on drag
-  void reorder(int oldIndex, int newIndex, isCompleted) {
+  void reorder(int oldIndex, int newIndex, bool isCompleted) {
     log("old index: $oldIndex, newIndex: $newIndex");
     var list = isCompleted ? completed : inProgress;
 

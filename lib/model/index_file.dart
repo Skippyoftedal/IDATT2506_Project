@@ -15,7 +15,7 @@ class IndexFile {
   factory IndexFile.fromJson(Map<String, dynamic> json) {
     try {
       var filesJson = (json["files"] as List<dynamic>)
-          .map((item) => IndexItem.fromJson(item))
+          .map((item) => IndexItem.fromJson(item as Map<String, dynamic>))
           .toList();
 
       return IndexFile(files: filesJson);

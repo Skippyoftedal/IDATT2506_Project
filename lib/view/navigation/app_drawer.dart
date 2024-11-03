@@ -63,7 +63,7 @@ class AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  drawerHeader() {
+  Widget drawerHeader() {
     return Container(
       padding: const EdgeInsets.only(top: 50),
       color: Theme.of(context).colorScheme.primary,
@@ -108,7 +108,7 @@ class AppDrawerState extends State<AppDrawer> {
         .toList();
   }
 
-  newListRoute() {
+  Widget newListRoute() {
     return Container(
       color: Theme.of(context).colorScheme.primary,
       child: RouteWidget(

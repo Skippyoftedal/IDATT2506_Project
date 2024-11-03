@@ -37,8 +37,11 @@ class IndexService {
   /// Fetches indexes from json index file, and adds them to [_indexes]
   Future<void> _fetchIndexesFromFile() async {
     log("Fetching indexes");
-    IndexFile parsed =
-    IndexFile.fromJson(jsonDecode(await (await _indexFile).readAsString()));
+
+    String jsonString = await (await _indexFile).readAsString();
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
+    IndexFile parsed = IndexFile.fromJson(jsonMap);
+
     log("Found indexes from file: json: $parsed");
     _indexes.addAll(parsed.files);
   }

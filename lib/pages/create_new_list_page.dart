@@ -172,7 +172,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
       errorMessage = e.toString();
     }
 
-    if (errorMessage != null) {
+    if (errorMessage != null && mounted) {
       CriticalError(errorMessage: errorMessage).show(context);
     }
   }

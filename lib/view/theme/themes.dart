@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class TodoAppTheme{
 
 
-  static ThemeData getAppTheme({dark = false}) {
+  static ThemeData getAppTheme({bool dark = false}) {
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,

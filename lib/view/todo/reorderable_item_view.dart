@@ -55,7 +55,7 @@ class _ItemViewState extends State<ItemView> {
   }
 
 
-  ReorderableListView reorderableList(Iterable<TodoItem> items, isCompleted) {
+  ReorderableListView reorderableList(Iterable<TodoItem> items, bool isCompleted) {
     return ReorderableListView(
       reverse: true,
       shrinkWrap: true,

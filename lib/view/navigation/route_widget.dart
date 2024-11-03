@@ -35,7 +35,7 @@ class RouteWidget extends StatelessWidget {
     );
   }
 
-  void navigate(context) {
+  void navigate(BuildContext context) {
     log("Navigating to ${route.prettyName}");
     Navigator.of(context).push(
       MaterialPageRoute(builder: route.component),

@@ -14,9 +14,9 @@ class IndexItem {
   factory IndexItem.fromJson(Map<String, dynamic> json) {
     try {
       return IndexItem(
-          listName: json["listName"],
-          fileName: json["fileName"],
-          iconCodePoint: json["iconCodePoint"]);
+          listName: json["listName"] as String,
+          fileName: json["fileName"] as String,
+          iconCodePoint: json["iconCodePoint"] as int);
     } catch (e) {
       log("json parsing error for todoItem :$e");
       throw StateError("Cannot parse $json");

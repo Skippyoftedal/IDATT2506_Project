@@ -24,7 +24,7 @@ void main() {
     IndexFile expected =
     IndexFile(files: [IndexItem(listName: "test", fileName: "test.json", iconCodePoint: 2)]);
 
-    IndexFile actual = IndexFile.fromJson(jsonDecode(fileContent));
+    IndexFile actual = IndexFile.fromJson(jsonDecode(fileContent) as Map<String, dynamic>);
 
     expect(actual.files[0].listName, expected.files[0].listName);
     expect(actual.files[0].fileName, expected.files[0].fileName);

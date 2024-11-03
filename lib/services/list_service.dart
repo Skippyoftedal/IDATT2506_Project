@@ -26,10 +26,10 @@ class ListService {
   /// Gets the list that has the given [listName]
   ///
   /// If the list does not exist, or cannot be opened, a [StateError] is thrown.
-  static Future<TodoList> getList(String listName, {simulateDelay = false}) async {
+  static Future<TodoList> getList(String listName, {int simulateDelaySeconds = 0}) async {
 
-    if (simulateDelay){
-      await Future.delayed(Duration(seconds: 3));
+    if (simulateDelaySeconds > 0){
+      await Future.delayed(Duration(seconds: simulateDelaySeconds));
     }
 
     final IndexItem indexItem = await IndexService().getIndex(listName);
