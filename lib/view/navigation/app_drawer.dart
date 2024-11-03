@@ -113,7 +113,8 @@ class AppDrawerState extends State<AppDrawer> {
       color: Theme.of(context).colorScheme.primary,
       child: RouteWidget(
         route: RouteService.createNew(
-            prettyName: AppLocalizations.of(context)!.createNewListRouteButtonText),
+            prettyName:
+                AppLocalizations.of(context)!.createNewListRouteButtonText),
       ),
     );
   }
@@ -121,14 +122,25 @@ class AppDrawerState extends State<AppDrawer> {
   Future<void> showDeleteAlert(
       BuildContext context, String listToDelete) async {
     Widget cancel = TextButton(
-      child: Text(AppLocalizations.of(context)!.cancelButtonText),
+      style: ButtonStyle(
+          backgroundColor: WidgetStateColor.resolveWith(
+              (_) => Theme.of(context).colorScheme.surfaceContainerHighest)),
+      child: Text(
+        AppLocalizations.of(context)!.cancelButtonText,
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
 
     Widget confirmDelete = TextButton(
-      child: Text(AppLocalizations.of(context)!.continueButtonText),
+      style: ButtonStyle(
+          backgroundColor: WidgetStateColor.resolveWith((_) => Colors.red)),
+      child: Text(
+        AppLocalizations.of(context)!.confirmDelete,
+        style: TextStyle(color: Colors.white),
+      ),
       onPressed: () async {
         Navigator.of(context).pop();
         await ListService.deleteList(listToDelete);
