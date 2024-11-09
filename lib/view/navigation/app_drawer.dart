@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/services/index_service.dart';
 import 'package:idatt2506_project/services/list_service.dart';
+import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/route_widget.dart';
 import 'package:idatt2506_project/services/route_service.dart';
 import 'package:idatt2506_project/model/todo_route.dart';
@@ -25,9 +26,10 @@ class AppDrawerState extends State<AppDrawer> {
     super.initState();
   }
 
+  /// Gets all available lists
   Future<void> fetchData() async {
     try {
-      var lists = await IndexService().indexes;
+      final lists = await IndexService().indexes;
       setState(() {
         listRoutes = lists
             .map(
@@ -63,6 +65,7 @@ class AppDrawerState extends State<AppDrawer> {
     );
   }
 
+  /// Title header for the drawer
   Widget drawerHeader() {
     return Container(
       padding: const EdgeInsets.only(top: 50),
@@ -82,32 +85,22 @@ class AppDrawerState extends State<AppDrawer> {
     );
   }
 
-  // List<Widget> constantRoutes() {
-  //   return RouteService.topRoutes
-  //       .map((route) => RouteWidget(route: route),
-  //
-  //       )
-  //       .toList();
-  // }
-
+  /// List of all [listRoutes] mapped to [RouteWidget]
   List<Widget> dynamicRoutes() {
     return listRoutes
-        .expand((route) =>
-            List.generate(1, (_) => route)) //TODO delete before release
         .map(
           (route) => RouteWidget(
             route: route,
             trailing: IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () {
-                showDeleteAlert(context, route.prettyName);
-              },
+              onPressed: () => showDeleteAlert(context, route.prettyName),
             ),
           ),
         )
         .toList();
   }
 
+  /// Bottom route for creating a new list
   Widget newListRoute() {
     return Container(
       color: Theme.of(context).colorScheme.primary,
@@ -119,6 +112,8 @@ class AppDrawerState extends State<AppDrawer> {
     );
   }
 
+  /// Shows an alert when trying to delete a list, making sure it is what
+  /// the user really wants.
   Future<void> showDeleteAlert(
       BuildContext context, String listToDelete) async {
     Widget cancel = TextButton(
@@ -142,9 +137,13 @@ class AppDrawerState extends State<AppDrawer> {
         style: TextStyle(color: Colors.white),
       ),
       onPressed: () async {
-        Navigator.of(context).pop();
-        await ListService.deleteList(listToDelete);
-        await fetchData();
+        try {
+          Navigator.of(context).pop();
+          await ListService.deleteList(listToDelete);
+          await fetchData();
+        } catch (_) {
+          CriticalError.generic(context).show(context);
+        }
       },
     );
 
