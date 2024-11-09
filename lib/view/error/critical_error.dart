@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CriticalError extends StatelessWidget {
@@ -16,6 +17,11 @@ class CriticalError extends StatelessWidget {
   final String errorMessage;
   final String? errorDescription;
   const CriticalError({super.key, required this.errorMessage, this.errorDescription});
+
+
+  factory CriticalError.generic(BuildContext context){
+    return CriticalError(errorMessage: AppLocalizations.of(context)?.genericError ?? "");
+  }
 
   @override
   Widget build(BuildContext context) {

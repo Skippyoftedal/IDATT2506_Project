@@ -1,4 +1,5 @@
 {
+  "genericError": "Noe gikk galt, vennligst prøv igjen",
   "addNewList": "Ny liste",
   "selectListIcon": "Velg et ikon for listen",
   "createListInputHint": "Gi listen et navn",

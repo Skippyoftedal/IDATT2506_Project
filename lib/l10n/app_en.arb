@@ -1,4 +1,5 @@
 {
+  "genericError": "Something went wrong, please try again",
   "addNewList": "Add a new list",
   "selectListIcon": "Choose a list icon",
   "createListInputHint": "Give the list a name",
@@ -14,17 +15,14 @@
   "createNewListRouteButtonText": "Create new list",
   "emptyListMessageHint": "The list is empty! Add some items by typing in the textbox 😉",
   "addNewItemToList": "Add a new item to the list",
-    "itemAlreadyExits": "'{item}' already exists",
-    "@itemAlreadyExists": {
-      "placeholders": {
-        "item": {
-          "type": "string",
-          "format": "compact"
-        }
+  "itemAlreadyExits": "'{item}' already exists",
+  "@itemAlreadyExists": {
+    "placeholders": {
+      "item": {
+        "type": "string",
+        "format": "compact"
       }
-    },
-
+    }
+  },
   "finished": "Finished"
-
-
 }

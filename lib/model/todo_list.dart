@@ -40,19 +40,25 @@ class TodoList {
     }
   }
 
-  factory TodoList.fromJson(Map<String, dynamic> json) {
-    var completedJson = (json["completed"] as List)
-        .map((item) => TodoItem.fromJson(item as Map<String, dynamic>))
-        .toList();
-    var inProgressJson = (json["inProgress"] as List)
-        .map((item) => TodoItem.fromJson(item as Map<String, dynamic>))
-        .toList();
+  factory TodoList.fromJson(final Map<String, dynamic> json) {
+    try {
+      final completedJson = (json["completed"] as List)
+          .map((final item) => TodoItem.fromJson(item as Map<String, dynamic>))
+          .toList();
+      final inProgressJson = (json["inProgress"] as List)
+          .map((final item) => TodoItem.fromJson(item as Map<String, dynamic>))
+          .toList();
 
-    return TodoList(
-        name: "Name has not been updated",
-        completed: completedJson,
-        inProgress: inProgressJson,
-        iconCodePoint: json["iconCodePoint"] as int);
+      return TodoList(
+          name: "Name has not been updated",
+          completed: completedJson,
+          inProgress: inProgressJson,
+          iconCodePoint: json["iconCodePoint"] as int);
+    } catch (e) {
+
+      log("json parsing error for todoItem :$e");
+      throw StateError("Cannot parse $json");
+    }
   }
 
   factory TodoList.fromJsonString(String json) {

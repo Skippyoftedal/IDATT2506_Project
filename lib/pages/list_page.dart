@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:idatt2506_project/exceptions/already_exists_error.dart';
 import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
 import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
+import 'package:idatt2506_project/services/index_service.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 import 'package:idatt2506_project/model/todo_list.dart';
@@ -13,7 +14,9 @@ import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:idatt2506_project/view/todo/reorderable_item_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// Page for displaying and editing a list
 class ListPage extends StatefulWidget {
+  /// The name of the list, identifies it in the [IndexService]
   final String listName;
 
   const ListPage({super.key, required this.listName});
@@ -23,9 +26,16 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+
+  /// The current list
+  ///
+  /// Null if the list has not been retrieved yet
   TodoList? todoList;
-  String errorMessage = "";
-  final textController = TextEditingController();
+
+
+  /// [TextEditingController] for the bottom text input for adding
+  /// a new [TodoItem] to [todoList]
+  final itemInputTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +70,19 @@ class _ListPageState extends State<ListPage> {
                   children: [
                     Expanded(
                       child: TextField(
-                        controller: textController,
+                        controller: itemInputTextController,
                         onSubmitted: (submission) {
-                          textController.text = "";
+                          itemInputTextController.text = "";
                           addTodoListItem(submission);
                         },
                         onEditingComplete: () {},
                         decoration: InputDecoration(
-                            enabledBorder: getBorder(),
-                            focusedBorder: getBorder(),
+                            enabledBorder: getTextFieldBorder(),
+                            focusedBorder: getTextFieldBorder(),
                             suffixIcon: IconButton(
                               onPressed: () {
-                                addTodoListItem(textController.text);
-                                textController.text = "";
+                                addTodoListItem(itemInputTextController.text);
+                                itemInputTextController.text = "";
                               },
                               icon: Icon(Icons.send,
                                   color: Theme.of(context).colorScheme.primary),
@@ -88,6 +98,7 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+  /// Chat bubble letting the user know that the list is empty
   Widget listIsEmptyMessage() {
     return BubbleSpecialThree(
       text: AppLocalizations.of(context)!.emptyListMessageHint,
@@ -97,7 +108,8 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
-  OutlineInputBorder getBorder() {
+  /// Border for the bottom [TextField]
+  OutlineInputBorder getTextFieldBorder() {
     return OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0),
@@ -108,6 +120,9 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+  /// Tries to add a [TodoItem], displaying an error if something goes wrong.
+  ///
+  /// The list is updated in the file system every time an item is added
   void addTodoListItem(String text) {
     String? errorMessage;
     setState(() {
@@ -132,13 +147,23 @@ class _ListPageState extends State<ListPage> {
     }
   }
 
-  void updateList() {
+  /// Updates the list in the list service
+  Future<void> updateList() async {
     log("Updating list");
+
     if (todoList != null) {
-      ListService.updateList(todoList!);
+      try{
+        await ListService.updateList(todoList!);
+      } catch (_){
+        if (mounted){
+          String message = AppLocalizations.of(context)?.genericError ?? "";
+          CriticalError(errorMessage: message).show(context);
+        }
+      }
     }
   }
 
+  /// Gets the name from the [ListService] based on the name of the list
   void fetchList() async {
     try {
       TodoList? fetched;
@@ -150,9 +175,7 @@ class _ListPageState extends State<ListPage> {
         todoList = fetched;
       });
     } catch (e) {
-      setState(() {
-        errorMessage = e.toString();
-      });
+      if (mounted) CriticalError.generic(context).show(context);
     }
   }
 
@@ -164,7 +187,7 @@ class _ListPageState extends State<ListPage> {
 
   @override
   void dispose() {
-    textController.dispose();
+    itemInputTextController.dispose();
     super.dispose();
   }
 }

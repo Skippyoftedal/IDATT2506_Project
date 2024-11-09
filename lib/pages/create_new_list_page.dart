@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:idatt2506_project/exceptions/already_exists_error.dart';
 import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
 import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
+import 'package:idatt2506_project/model/todo_list.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/pages/list_page.dart';
 import 'package:idatt2506_project/view/error/critical_error.dart';
 import 'package:idatt2506_project/view/navigation/standard_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+/// The page used to create a new [TodoList] with an icon and name.
+///
+/// On creation the user is transferred to a [ListPage] for further interaction
+/// with the list.
 class CreateNewListPage extends StatefulWidget {
   const CreateNewListPage({super.key});
 
@@ -16,10 +21,14 @@ class CreateNewListPage extends StatefulWidget {
 }
 
 class _CreateNewListPageState extends State<CreateNewListPage> {
-  final textController = TextEditingController();
+
+  /// [TextEditingController] for the title input
+  final titleInputController = TextEditingController();
+
+  /// The selected [int] value of the selected icon
   int selectedIconCodePoint = Icons.list.codePoint;
 
-
+  /// A list of all available icons
   static final List<IconData> available = [
     Icons.list,
     Icons.shopping_cart,
@@ -54,7 +63,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
                   child: Card(
                     elevation: 10,
                     child: TextField(
-                      controller: textController,
+                      controller: titleInputController,
                       onSubmitted: (_) {
                         createListAndPush();
                       },
@@ -99,6 +108,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     );
   }
 
+  /// Grid view of the icon buttons
   Widget iconSelector() {
 
     return Expanded(
@@ -120,6 +130,8 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     );
   }
 
+  /// Button containing a single icon, with a border that changes color when
+  /// selected.
   Widget iconSelectorButton(int iconCodePoint) {
     var isSelected = (selectedIconCodePoint == iconCodePoint);
     return Card(
@@ -150,11 +162,15 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
     );
   }
 
+  /// Creates a new list and pushes the router to a [ListPage] with the list of
+  /// the created list.
+  ///
+  /// If an error is encountered an error is shown in a modal
   void createListAndPush() async {
     AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
     final NavigatorState navigator = Navigator.of(context);
-    final title = textController.text;
+    final title = titleInputController.text;
     String? errorMessage;
     try {
       await ListService.createEmptyList(
@@ -181,7 +197,7 @@ class _CreateNewListPageState extends State<CreateNewListPage> {
 
   @override
   void dispose() {
-    textController.dispose();
+    titleInputController.dispose();
     super.dispose();
   }
 }
