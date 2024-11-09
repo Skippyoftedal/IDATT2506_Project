@@ -27,6 +27,8 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    prefer_final_locals: true
+    prefer_final_parameters: true
     avoid_print: true
     prefer_single_quotes: false
 
