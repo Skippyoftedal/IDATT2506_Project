@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:idatt2506_project/exceptions/already_exists_error.dart';
+import 'package:idatt2506_project/error/already_exists_error.dart';
 import 'package:idatt2506_project/model/index_file_item.dart';
 import 'package:idatt2506_project/model/index_file.dart';
 import 'package:path_provider/path_provider.dart';

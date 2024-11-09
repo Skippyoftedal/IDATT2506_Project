@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:idatt2506_project/exceptions/already_exists_error.dart';
-import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
-import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
+import 'package:idatt2506_project/error/already_exists_error.dart';
+import 'package:idatt2506_project/error/empty_input_error.dart';
+import 'package:idatt2506_project/error/only_whitespace_error.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
 
 class TodoList {

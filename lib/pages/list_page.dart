@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
-import 'package:idatt2506_project/exceptions/already_exists_error.dart';
-import 'package:idatt2506_project/exceptions/empty_input_exception.dart';
-import 'package:idatt2506_project/exceptions/only_whitespace_error.dart';
+import 'package:idatt2506_project/error/already_exists_error.dart';
+import 'package:idatt2506_project/error/empty_input_error.dart';
+import 'package:idatt2506_project/error/only_whitespace_error.dart';
 import 'package:idatt2506_project/services/index_service.dart';
 import 'package:idatt2506_project/services/list_service.dart';
 import 'package:idatt2506_project/model/todo_item.dart';
