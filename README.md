@@ -12,11 +12,14 @@ All of the original parts of the task have been completed as well as some extra 
 - Draggable items inside the list (long press) ↕️
 - Autosaving lists 💾
 - Dark/light mode based on system settings 🌌 + 🌅
+- Customizable list icons 🛒
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/40fa3ed1-8fa5-4c3f-9547-2011e05aea13" alt="Image 1" width="200"/>
   <img src="https://github.com/user-attachments/assets/4a1e1314-2b22-4522-bae7-6ea2c8bd9041" alt="Image 2" width="200"/>
+  <img src="https://github.com/user-attachments/assets/d9122597-eb27-4175-8bb8-b613ebc7eac0" alt="Image 2" width="200"/>
 </p>
+
 
 
 ## Prerequisites
