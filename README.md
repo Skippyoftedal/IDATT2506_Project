@@ -4,6 +4,15 @@
 ## Description
 Cross-platform solution for the final task of idatt2506 (Applikasjonsutvikling for mobile enheter)
 
+The task was to make a todo app similar to [Google Keep](https://keep.google.com/) or [Microsoft To Do](https://to-do.office.com/tasks/)
+
+All of the original parts of the task have been completed as well as some extra features:
+- Language support for English and Norwegian 🇬🇧 + 🇳🇴
+- Confetti effect for completed lists 🎉
+- Draggable items inside the list (long press) ↕️
+- Autosaving lists 💾
+- Dark/light mode based on system settings 🌌 + 🌅
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/40fa3ed1-8fa5-4c3f-9547-2011e05aea13" alt="Image 1" width="200"/>
   <img src="https://github.com/user-attachments/assets/4a1e1314-2b22-4522-bae7-6ea2c8bd9041" alt="Image 2" width="200"/>
