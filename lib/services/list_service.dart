@@ -82,7 +82,7 @@ class ListService {
 
       File file = File("${await localPath}/$filename");
       if (!await file.exists()) {
-        log("Print $filename did not exist, creating new file");
+        log("$filename did not exist, creating new file");
         await file.create();
       }
       final String json = jsonEncode(list);
