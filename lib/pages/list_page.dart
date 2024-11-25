@@ -168,7 +168,7 @@ class _ListPageState extends State<ListPage> {
     try {
       TodoList? fetched;
       //TODO, remove delay before shipping
-      fetched = await ListService.getList(widget.listName, simulateDelaySeconds: 1);
+      fetched = await ListService.getList(widget.listName, simulateDelaySeconds: 0);
 
       log("fetched list $fetched");
       setState(() {
