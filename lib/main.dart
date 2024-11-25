@@ -6,6 +6,7 @@ import 'package:idatt2506_project/services/test_data_service.dart';
 import 'package:idatt2506_project/services/route_service.dart';
 import 'package:idatt2506_project/view/theme/themes.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'services/list_service.dart';
 
@@ -56,13 +57,22 @@ class _TodoAppState extends State<TodoApp> {
   }
 
   Future<void> initializeTestData() async {
+    final String key = "isTestDataAdded";
     final AssetBundle rootBundle = DefaultAssetBundle.of(context);
-    try {
-      await ListService.deleteAllLists();
-      await TestDataService.addTestData(rootBundle);
-    } catch (e) {
-      log("Could not add testdata $e");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool isTestDataAdded = prefs.getBool(key) ?? false;
+
+    if (!isTestDataAdded){
+      try {
+        await ListService.deleteAllLists();
+        await TestDataService.addTestData(rootBundle);
+        prefs.setBool(key, true);
+
+      } catch (e) {
+        log("Could not add testdata $e");
+      }
     }
+
   }
 
 
