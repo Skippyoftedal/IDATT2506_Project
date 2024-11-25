@@ -52,13 +52,13 @@ If you do not want the whole IDE, it should also be possible to download it sepe
 1. Download the flutter plugin: https://plugins.jetbrains.com/plugin/9212-flutter
 2. Start a device from the device manager located on the right side of the application
 ![image](https://github.com/user-attachments/assets/625bb818-3af1-4af1-ae6e-947ec01e431d)
-3. Add languages
+3. Add languages by running the following command in a terminal
 
 ```
     flutter gen-l10n
 ```
 
-5. Run the flutter app (main.dart) from the top menu by pressing the green play button
+4. Run the flutter app (main.dart) from the top menu by pressing the green play button
 
 
 ![image](https://github.com/user-attachments/assets/fffe6e83-b0f7-4ca1-9d4e-060bc6f71925)
